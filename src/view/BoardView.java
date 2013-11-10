@@ -25,10 +25,8 @@ public class BoardView extends JPanel {
 		//g.setColor(Color.BLACK);
 		//g.fillRect(0, 0, 900, 600);
 		g.setColor(Color.WHITE);
-		g.fillRect(0, 0, Common.width + Common.border * 2, Common.height + Common.border * 2);
-		g.setColor(Color.BLUE);
+		g.fillRect(0, 0, Common.width, Common.height);
 		game.paintObjects(g);
-		g.setColor(Color.GRAY);
 		game.paintBoard(g);
 		
 	}

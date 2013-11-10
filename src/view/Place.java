@@ -14,12 +14,11 @@ public class Place {
 	}
 
 	public static Place vecToPlace(Vector vec) {
-		return new Place((int) vec.x + Common.border, (int) vec.y
-				+ Common.border);
+		return new Place((int) vec.x, (int) vec.y);
 	}
 
 	public static Place posToPlace(BoardPos pos) {
-		return new Place((pos.xpos + 1) * (Common.squaresize + Common.delim) + Common.delim,
-				(pos.ypos + 1) * (Common.squaresize + Common.delim) + Common.delim);
+		return new Place(pos.xpos * Common.squaresize + Common.delim,
+				pos.ypos * Common.squaresize + Common.delim);
 	}
 }

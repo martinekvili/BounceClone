@@ -1,11 +1,13 @@
 package top;
 
+import game.Game;
+
 import java.awt.BorderLayout;
+import java.util.Date;
 
 import javax.swing.JFrame;
 
 import view.BoardView;
-import game.Game;
 
 public class Main {
 
@@ -19,7 +21,11 @@ public class Main {
 		jf.setVisible(true);
 		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
+		Date startime = new Date();
+		long framecounter = 0;
+		
 		while (true) {
+			framecounter++;
 			g.step();
 			bv.repaint();
 			try {
@@ -28,6 +34,7 @@ public class Main {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			System.out.println((double) framecounter / (System.currentTimeMillis() - startime.getTime()) * 1000);
 		}
 	}
 

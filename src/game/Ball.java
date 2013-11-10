@@ -1,5 +1,7 @@
 package game;
 
+import game.Board.State;
+
 import java.awt.Graphics;
 import java.util.Random;
 
@@ -10,33 +12,65 @@ public class Ball implements GameObject {
 
 	private Vector place;
 	private Vector speed;
+	
+	private Game parent;
 
-	public Ball() {
+	public Ball(Game g) {
+		parent = g;
+		
 		Random rnd = new Random();
 
-		place = new Vector(rnd.nextDouble() * (Common.width - Common.ballsize),
-				rnd.nextDouble() * (Common.height - Common.ballsize));
+		place = new Vector(rnd.nextDouble()
+				* (Common.width - Common.ballsize - 2 * Common.squaresize)
+				+ Common.squaresize, rnd.nextDouble()
+				* (Common.height - Common.ballsize - 2 * Common.squaresize)
+				+ Common.squaresize);
 
 		double angle = rnd.nextDouble() * 2 * Math.PI;
 		speed = new Vector(Common.ballspeed * Math.cos(angle), Common.ballspeed
 				* Math.sin(angle));
 
 	}
+	
+	public void collide() {
+		BoardPos pos;
+		
+		/* vertical */
+		if (speed.y < 0) {
+			Vector top = new Vector(place.x + Common.ballsize / 2, place.y);
+			pos = BoardPos.vecToPos(top);
+		}
+		else {
+			Vector bottom = new Vector(place.x + Common.ballsize / 2, place.y + Common.ballsize);
+			pos = BoardPos.vecToPos(bottom);
+		}
+		
+		if (parent.board.getState(pos) == State.WALL) {
+			speed.y *= -1;
+		}
+		
+		/* horizontal */
+		if (speed.x < 0) {
+			Vector left = new Vector(place.x, place.y + Common.ballsize / 2);
+			pos = BoardPos.vecToPos(left);
+		}
+		else {
+			Vector right = new Vector(place.x + Common.ballsize, place.y + Common.ballsize / 2);
+			pos = BoardPos.vecToPos(right);
+		}
+		
+		if (parent.board.getState(pos) == State.WALL) {
+			speed.x *= -1;
+		}
+	}
 
 	public void step() {
 		place.add(speed);
-		if (place.x < 0 || place.x > Common.width - Common.ballsize)
-			speed.x *= -1;
-		if (place.y < 0 || place.y > Common.height - Common.ballsize)
-			speed.y *= -1;
-		// System.out.println("xpos: " + place.x + ", ypos: " + place.y +
-		// ", xspeed: " + speed.x + ", yspeed: " + speed.y);
 	}
 
 	public void paint(Graphics g) {
 		Place p = Place.vecToPlace(place);
-		g.fillOval(p.x, p.y, Common.ballsize,
-				Common.ballsize);
+		g.fillOval(p.x, p.y, Common.ballsize, Common.ballsize);
 	}
 
 }

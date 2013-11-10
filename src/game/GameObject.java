@@ -6,6 +6,8 @@ public interface GameObject {
 	
 	public abstract void step();
 	
+	public abstract void collide();
+	
 	public abstract void paint(Graphics g);
 
 }

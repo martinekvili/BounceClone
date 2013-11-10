@@ -5,7 +5,7 @@ import top.Common;
 public class Board {
 
 	public enum State {
-		EMPTY, WALL, UNDER_CONSTRUCTION
+		EMPTY, WALL, UNDER_CONSTRUCTION, BROKEN_WALL
 	};
 
 	private State[][] board;
@@ -22,19 +22,6 @@ public class Board {
 					board[i][j] = State.EMPTY;
 			}
 		}
-		
-		board[10][15] = State.WALL;
-		board[9][15] = State.WALL;
-		board[11][15] = State.WALL;
-		board[12][15] = State.WALL;
-		board[8][15] = State.WALL;
-		
-		board[10][20] = State.WALL;
-		board[9][20] = State.WALL;
-		board[11][20] = State.WALL;
-		
-		board[12][10] = State.WALL;
-		board[8][10] = State.WALL;
 	}
 
 	public State getState(BoardPos pos) {

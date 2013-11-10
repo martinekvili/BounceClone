@@ -18,7 +18,7 @@ public class Place {
 	}
 
 	public static Place posToPlace(BoardPos pos) {
-		return new Place(pos.xpos * Common.squaresize + Common.delim,
-				pos.ypos * Common.squaresize + Common.delim);
+		return new Place(pos.xpos * Common.squaresize + Common.delim, pos.ypos
+				* Common.squaresize + Common.delim);
 	}
 }

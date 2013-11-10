@@ -12,18 +12,18 @@ import view.BoardView;
 public class Main {
 
 	public static void main(String[] args) {
-		Game g = new Game(50);
-		
+		Game g = new Game(2);
+
 		JFrame jf = new JFrame();
 		BoardView bv = new BoardView(g);
 		jf.add(bv, BorderLayout.CENTER);
 		jf.setSize(Common.width + 50, Common.height + 50);
 		jf.setVisible(true);
 		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
+
 		Date startime = new Date();
 		long framecounter = 0;
-		
+
 		while (true) {
 			framecounter++;
 			g.step();
@@ -34,7 +34,8 @@ public class Main {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			System.out.println((double) framecounter / (System.currentTimeMillis() - startime.getTime()) * 1000);
+			System.out.println((double) framecounter
+					/ (System.currentTimeMillis() - startime.getTime()) * 1000);
 		}
 	}
 

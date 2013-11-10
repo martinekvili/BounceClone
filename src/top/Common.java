@@ -12,6 +12,9 @@ public class Common {
 	/* Size of the gap between squares: in pixels. */
 	public static final int delim = 1;
 	
+	/* Size of the border. */
+	public static final int border = squaresize + 2 * delim;
+	
 	/* Size of the board: in pixels. */
 	public static final int width = boardwidth * (squaresize + delim);
 	public static final int height = boardheight * (squaresize + delim);

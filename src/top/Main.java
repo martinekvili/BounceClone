@@ -15,7 +15,7 @@ public class Main {
 		JFrame jf = new JFrame();
 		BoardView bv = new BoardView(g);
 		jf.add(bv, BorderLayout.CENTER);
-		jf.setSize(Common.width, Common.height);
+		jf.setSize(Common.width + 50, Common.height + 50);
 		jf.setVisible(true);
 		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
@@ -23,7 +23,7 @@ public class Main {
 			g.step();
 			bv.repaint();
 			try {
-				Thread.sleep(10);
+				Thread.sleep(20);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

@@ -1,5 +1,7 @@
 package game;
 
+import top.Common;
+
 public class Vector {
 	
 	public double x, y;
@@ -14,8 +16,8 @@ public class Vector {
 		y += other.y;
 	}
 	
-	//public static Vector posToVec (BoardPos pos) {
-	//	return new Vector ()
-	//}
+	public static Vector posToVec (BoardPos pos) {
+		return new Vector (pos.xpos * (Common.squaresize + Common.delim), pos.ypos * (Common.squaresize + Common.delim));
+	}
 
 }

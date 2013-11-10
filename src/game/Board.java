@@ -11,7 +11,7 @@ public class Board {
 	private State[][] board;
 
 	public Board() {
-		board = new State[Common.boardwidth + 2][Common.boardwidth + 2];
+		board = new State[Common.boardheight + 2][Common.boardwidth + 2];
 
 		for (int i = 0; i < board.length; i++) {
 			for (int j = 0; j < board[i].length; j++) {
@@ -25,11 +25,11 @@ public class Board {
 	}
 
 	public State getState(BoardPos pos) {
-		return board[pos.xpos + 1][pos.ypos + 1];
+		return board[pos.ypos + 1][pos.xpos + 1];
 	}
 
 	public void setState(BoardPos pos, State stat) {
-		board[pos.xpos + 1][pos.ypos + 1] = stat;
+		board[pos.ypos + 1][pos.xpos + 1] = stat;
 	}
 
 }

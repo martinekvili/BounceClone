@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.util.Random;
 
 import top.Common;
+import view.Place;
 
 public class Ball implements GameObject {
 
@@ -13,8 +14,8 @@ public class Ball implements GameObject {
 	public Ball() {
 		Random rnd = new Random();
 
-		place = new Vector(rnd.nextDouble() * Common.width, rnd.nextDouble()
-				* Common.height);
+		place = new Vector(rnd.nextDouble() * (Common.width - Common.ballsize),
+				rnd.nextDouble() * (Common.height - Common.ballsize));
 
 		double angle = rnd.nextDouble() * 2 * Math.PI;
 		speed = new Vector(Common.ballspeed * Math.cos(angle), Common.ballspeed
@@ -28,11 +29,14 @@ public class Ball implements GameObject {
 			speed.x *= -1;
 		if (place.y < 0 || place.y > Common.height - Common.ballsize)
 			speed.y *= -1;
-		//System.out.println("xpos: " + place.x + ", ypos: " + place.y + ", xspeed: " + speed.x + ", yspeed: " + speed.y);
+		// System.out.println("xpos: " + place.x + ", ypos: " + place.y +
+		// ", xspeed: " + speed.x + ", yspeed: " + speed.y);
 	}
 
 	public void paint(Graphics g) {
-		g.fillOval((int) place.x, (int) place.y, Common.ballsize, Common.ballsize);
+		Place p = Place.vecToPlace(place);
+		g.fillOval(p.x, p.y, Common.ballsize,
+				Common.ballsize);
 	}
 
 }

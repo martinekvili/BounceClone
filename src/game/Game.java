@@ -16,9 +16,9 @@ public class Game {
 
 	private int time;
 	int lives;
-	Board board;
+	public Board board;
 
-	List<GameObject> objects;
+	private List<GameObject> objects;
 
 	public Game(int level) {
 
@@ -37,6 +37,10 @@ public class Game {
 		objects.add(new HalfDoneWall(this, new BoardPos(15, 10),
 				Orientation.HORIZONTAL, Direction.POSITIVE));
 
+	}
+	
+	public void addObject (GameObject o) {
+		objects.add(o);
 	}
 
 	public void step() {

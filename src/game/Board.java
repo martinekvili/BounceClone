@@ -3,6 +3,8 @@ package game;
 import top.Common;
 
 public class Board {
+	
+	private Game parent;
 
 	public enum State {
 		EMPTY, WALL, UNDER_CONSTRUCTION, BROKEN_WALL
@@ -10,7 +12,9 @@ public class Board {
 
 	private State[][] board;
 
-	public Board() {
+	public Board(Game p) {
+		parent = p;
+		
 		board = new State[Common.boardheight][Common.boardwidth];
 
 		for (int i = 0; i < board.length; i++) {
@@ -30,6 +34,20 @@ public class Board {
 
 	public void setState(BoardPos pos, State stat) {
 		board[pos.ypos][pos.xpos] = stat;
+	}
+	
+	public void fillFromPos(BoardPos pos) {
+		if (getState(pos) == State.EMPTY) {
+			if (test(pos))
+				fill(pos);
+		}
+	}
+
+	private void fill(BoardPos pos) {	
+	}
+
+	private boolean test(BoardPos pos) {
+		return false;
 	}
 
 }

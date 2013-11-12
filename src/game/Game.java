@@ -24,7 +24,7 @@ public class Game {
 		lives = 2 + level;
 		balls = 2 + level;
 
-		board = new Board();
+		board = new Board(this);
 
 		objects = new ArrayList<GameObject>();
 

@@ -31,12 +31,6 @@ public class Game {
 
 		for (int i = 0; i < lives; i++)
 			objects.add(new Ball(this));
-
-		objects.add(new HalfDoneWall(this, new BoardPos(14, 10),
-				Orientation.HORIZONTAL, Direction.NEGATIVE));
-		objects.add(new HalfDoneWall(this, new BoardPos(15, 10),
-				Orientation.HORIZONTAL, Direction.POSITIVE));
-
 	}
 
 	public void addObject(GameObject o) {
@@ -75,11 +69,11 @@ public class Game {
 							Common.squaresize - Common.delim);
 					break;
 
-				case UNDER_CONSTRUCTION:
-					g.setColor(Color.YELLOW);
-					g.fillRect(p.x, p.y, Common.squaresize - Common.delim,
-							Common.squaresize - Common.delim);
-					break;
+//				case UNDER_CONSTRUCTION:
+//					g.setColor(Color.YELLOW);
+//					g.fillRect(p.x, p.y, Common.squaresize - Common.delim,
+//							Common.squaresize - Common.delim);
+//					break;
 
 				default:
 					break;

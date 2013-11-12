@@ -2,11 +2,17 @@ package game;
 
 import game.Board.State;
 
+import java.awt.Color;
 import java.awt.Graphics;
 
 import top.Common;
+import view.Place;
 
 public class HalfDoneWall implements GameObject {
+	
+	private static int classnum = 0;
+	
+	private int num;
 
 	public enum Orientation {
 		VERTICAL, HORIZONTAL
@@ -28,6 +34,8 @@ public class HalfDoneWall implements GameObject {
 	private Game parent;
 
 	public HalfDoneWall(Game g, BoardPos pos, Orientation o, Direction d) {
+		num = classnum++;
+		
 		stepdivider = 0;
 		removeable = false;
 		done = false;
@@ -36,12 +44,11 @@ public class HalfDoneWall implements GameObject {
 		startpoint = pos;
 		orientation = o;
 		direction = d;
-		length = 0;
+		length = 1;
 
-		if (parent.board.getState(startpoint) == State.WALL)
-			removeable = true;
-		else
-			parent.board.setState(startpoint, State.UNDER_CONSTRUCTION);
+		parent.board.setState(startpoint, State.UNDER_CONSTRUCTION);
+		
+		System.out.println(num + ": " + startpoint.xpos + ", " + startpoint.ypos);
 	}
 
 	private BoardPos getPos(int i) {
@@ -61,8 +68,10 @@ public class HalfDoneWall implements GameObject {
 	}
 
 	private void changeState(State s) {
-		for (int i = 0; i <= length; i++) {
+		System.out.println(num + " start: " + startpoint.xpos + ", " + startpoint.ypos + ", length: " + length);
+		for (int i = 0; i < length; i++) {
 			BoardPos pos = getPos(i);
+			System.out.println(pos.xpos + ", " + pos.ypos);
 			parent.board.setState(pos, s);
 		}
 	}
@@ -75,33 +84,38 @@ public class HalfDoneWall implements GameObject {
 			stepdivider++;
 
 		else {
+			System.out.println("I'm alive. " + num + " start: " + startpoint.xpos + ", " + startpoint.ypos + ", length: " + length);
+			//System.out.println(num + " start: " + startpoint.xpos + ", " + startpoint.ypos + ", length: " + length);
+			
 			stepdivider = 0;
-			length++;
 
 			BoardPos pos = getPos(length);
 
 			if (parent.board.getState(pos) == State.WALL) {
 				done = true;
 				removeable = true;
-			} else
+			} else {
 				parent.board.setState(pos, State.UNDER_CONSTRUCTION);
+				length++;
+			}
 		}
 	}
 
 	public void collide() {
-		int i = 0;
+		boolean collided = false;
 		
-		for (; i <= length; i++) {
+		for (int i = 0; i < length; i++) {
 			BoardPos pos = getPos(i);
 			if (parent.board.getState(pos) == State.BROKEN_WALL) {
 				changeState(State.EMPTY);
 				removeable = true;
+				collided = true;
 				parent.lives--;
 				break;
 			}
 		}
 		
-		if (i > length && done)
+		if (done && !collided)
 			changeState(State.WALL);
 	}
 
@@ -110,6 +124,16 @@ public class HalfDoneWall implements GameObject {
 		 * Painting is done with painting the board, so we have nothing to do
 		 * here.
 		 */
+		if (direction == Direction.POSITIVE)
+			g.setColor(Color.YELLOW);
+		else
+			g.setColor(Color.ORANGE);
+		
+		for (int i = 0; i < length; i++) {
+			Place p = Place.posToPlace(getPos(i));
+			g.fillRect(p.x, p.y, Common.squaresize - Common.delim,
+					Common.squaresize - Common.delim);
+		}
 	}
 
 	public boolean isRemoveable() {

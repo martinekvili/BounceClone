@@ -33,8 +33,8 @@ public class Main {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			System.out.println((double) framecounter
-					/ (System.currentTimeMillis() - startime) * 1000);
+			//System.out.println((double) framecounter
+			//		/ (System.currentTimeMillis() - startime) * 1000);
 		}
 	}
 

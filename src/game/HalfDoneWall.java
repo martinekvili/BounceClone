@@ -36,7 +36,10 @@ public class HalfDoneWall implements GameObject {
 		direction = d;
 		length = 0;
 
-		parent.board.setState(startpoint, State.UNDER_CONSTRUCTION);
+		if (parent.board.getState(startpoint) == State.WALL)
+			removeable = true;
+		else
+			parent.board.setState(startpoint, State.UNDER_CONSTRUCTION);
 	}
 
 	private BoardPos getPos(int i) {
@@ -63,6 +66,9 @@ public class HalfDoneWall implements GameObject {
 	}
 
 	public void step() {
+		if (removeable)
+			return;
+		
 		if (stepdivider < Common.wallstepdivider)
 			stepdivider++;
 

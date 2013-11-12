@@ -38,8 +38,8 @@ public class Game {
 				Orientation.HORIZONTAL, Direction.POSITIVE));
 
 	}
-	
-	public void addObject (GameObject o) {
+
+	public void addObject(GameObject o) {
 		objects.add(o);
 	}
 

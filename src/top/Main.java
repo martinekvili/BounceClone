@@ -3,7 +3,6 @@ package top;
 import game.Game;
 
 import java.awt.BorderLayout;
-import java.util.Date;
 
 import javax.swing.JFrame;
 
@@ -21,7 +20,7 @@ public class Main {
 		jf.setVisible(true);
 		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		Date startime = new Date();
+		long startime = System.currentTimeMillis();
 		long framecounter = 0;
 
 		while (true) {
@@ -35,7 +34,7 @@ public class Main {
 				e.printStackTrace();
 			}
 			System.out.println((double) framecounter
-					/ (System.currentTimeMillis() - startime.getTime()) * 1000);
+					/ (System.currentTimeMillis() - startime) * 1000);
 		}
 	}
 

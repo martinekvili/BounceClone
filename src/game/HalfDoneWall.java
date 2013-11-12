@@ -23,12 +23,14 @@ public class HalfDoneWall implements GameObject {
 
 	private boolean removeable;
 	private int stepdivider;
+	private boolean done;
 
 	private Game parent;
 
 	public HalfDoneWall(Game g, BoardPos pos, Orientation o, Direction d) {
 		stepdivider = 0;
 		removeable = false;
+		done = false;
 
 		parent = g;
 		startpoint = pos;
@@ -68,7 +70,7 @@ public class HalfDoneWall implements GameObject {
 	public void step() {
 		if (removeable)
 			return;
-		
+
 		if (stepdivider < Common.wallstepdivider)
 			stepdivider++;
 
@@ -79,7 +81,7 @@ public class HalfDoneWall implements GameObject {
 			BoardPos pos = getPos(length);
 
 			if (parent.board.getState(pos) == State.WALL) {
-				changeState(State.WALL);
+				done = true;
 				removeable = true;
 			} else
 				parent.board.setState(pos, State.UNDER_CONSTRUCTION);
@@ -87,7 +89,9 @@ public class HalfDoneWall implements GameObject {
 	}
 
 	public void collide() {
-		for (int i = 0; i <= length; i++) {
+		int i = 0;
+		
+		for (; i <= length; i++) {
 			BoardPos pos = getPos(i);
 			if (parent.board.getState(pos) == State.BROKEN_WALL) {
 				changeState(State.EMPTY);
@@ -96,6 +100,9 @@ public class HalfDoneWall implements GameObject {
 				break;
 			}
 		}
+		
+		if (i > length && done)
+			changeState(State.WALL);
 	}
 
 	public void paint(Graphics g) {

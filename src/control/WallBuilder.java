@@ -1,6 +1,5 @@
 package control;
 
-import game.Board.State;
 import game.BoardPos;
 import game.Game;
 import game.HalfDoneWall;

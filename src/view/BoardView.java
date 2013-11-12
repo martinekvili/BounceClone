@@ -14,7 +14,7 @@ import control.WallBuilder;
 public class BoardView extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private Game game;
 
 	public BoardView(Game g) {

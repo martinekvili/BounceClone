@@ -177,4 +177,10 @@ public class HalfDoneWall implements GameObject {
 		return (status == Status.REMOVEABLE);
 	}
 
+	public Vector getVec() {
+		return null;
+	}
+	
+	
+
 }

@@ -16,7 +16,7 @@ public class Game {
 	int balls;
 	public Board board;
 
-	private List<GameObject> objects;
+	List<GameObject> objects;
 
 	public Game(int level) {
 

@@ -9,10 +9,6 @@ import top.Common;
 import view.Place;
 
 public class HalfDoneWall implements GameObject {
-	
-	private static int classnum = 0;
-	
-	private int num;
 
 	public enum Orientation {
 		VERTICAL, HORIZONTAL
@@ -34,8 +30,6 @@ public class HalfDoneWall implements GameObject {
 	private Game parent;
 
 	public HalfDoneWall(Game g, BoardPos pos, Orientation o, Direction d) {
-		num = classnum++;
-		
 		stepdivider = 0;
 		removeable = false;
 		done = false;
@@ -47,8 +41,6 @@ public class HalfDoneWall implements GameObject {
 		length = 1;
 
 		parent.board.setState(startpoint, State.UNDER_CONSTRUCTION);
-		
-		System.out.println(num + ": " + startpoint.xpos + ", " + startpoint.ypos);
 	}
 
 	private BoardPos getPos(int i) {
@@ -68,10 +60,8 @@ public class HalfDoneWall implements GameObject {
 	}
 
 	private void changeState(State s) {
-		System.out.println(num + " start: " + startpoint.xpos + ", " + startpoint.ypos + ", length: " + length);
 		for (int i = 0; i < length; i++) {
 			BoardPos pos = getPos(i);
-			System.out.println(pos.xpos + ", " + pos.ypos);
 			parent.board.setState(pos, s);
 		}
 	}
@@ -84,9 +74,6 @@ public class HalfDoneWall implements GameObject {
 			stepdivider++;
 
 		else {
-			System.out.println("I'm alive. " + num + " start: " + startpoint.xpos + ", " + startpoint.ypos + ", length: " + length);
-			//System.out.println(num + " start: " + startpoint.xpos + ", " + startpoint.ypos + ", length: " + length);
-			
 			stepdivider = 0;
 
 			BoardPos pos = getPos(length);
@@ -103,7 +90,7 @@ public class HalfDoneWall implements GameObject {
 
 	public void collide() {
 		boolean collided = false;
-		
+
 		for (int i = 0; i < length; i++) {
 			BoardPos pos = getPos(i);
 			if (parent.board.getState(pos) == State.BROKEN_WALL) {
@@ -114,21 +101,17 @@ public class HalfDoneWall implements GameObject {
 				break;
 			}
 		}
-		
+
 		if (done && !collided)
 			changeState(State.WALL);
 	}
 
 	public void paint(Graphics g) {
-		/*
-		 * Painting is done with painting the board, so we have nothing to do
-		 * here.
-		 */
 		if (direction == Direction.POSITIVE)
 			g.setColor(Color.YELLOW);
 		else
 			g.setColor(Color.ORANGE);
-		
+
 		for (int i = 0; i < length; i++) {
 			Place p = Place.posToPlace(getPos(i));
 			g.fillRect(p.x, p.y, Common.squaresize - Common.delim,

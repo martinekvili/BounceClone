@@ -23,4 +23,6 @@ public class Common {
 
 	public static final int wallstepdivider = 7;
 
+	public static final int framerate = 50;
+
 }

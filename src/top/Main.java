@@ -7,6 +7,7 @@ import java.awt.BorderLayout;
 import javax.swing.JFrame;
 
 import view.BoardView;
+import control.FrameGenerator;
 
 public class Main {
 
@@ -20,22 +21,8 @@ public class Main {
 		jf.setVisible(true);
 		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		long startime = System.currentTimeMillis();
-		long framecounter = 0;
-
-		while (true) {
-			framecounter++;
-			g.step();
-			bv.repaint();
-			try {
-				Thread.sleep(20);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			//System.out.println((double) framecounter
-			//		/ (System.currentTimeMillis() - startime) * 1000);
-		}
+		FrameGenerator fg = new FrameGenerator(g, bv);
+		fg.start();
 	}
 
 }

@@ -32,28 +32,31 @@ public class WallBuilder implements MouseListener {
 
 		case 1:
 			/* left mouse button */
-			BoardPos pos1 = BoardPos.vecToPos(new Vector(e.getX(), e.getY()));
-			BoardPos pos2 = new BoardPos(pos1.xpos, pos1.ypos);
-			if (dir == Orientation.HORIZONTAL) {
-				pos1.xpos = (int) Math.round((double) e.getX()
-						/ Common.squaresize);
-				pos2.xpos = pos1.xpos - 1;
-			}
-			else {
-				pos1.ypos = (int) Math.round((double) e.getY()
-						/ Common.squaresize);
-				pos2.ypos = pos1.ypos - 1;
-			}
+			if (game.freeToBulid()) {
+				BoardPos pos1 = BoardPos
+						.vecToPos(new Vector(e.getX(), e.getY()));
+				BoardPos pos2 = new BoardPos(pos1.xpos, pos1.ypos);
+				if (dir == Orientation.HORIZONTAL) {
+					pos1.xpos = (int) Math.round((double) e.getX()
+							/ Common.squaresize);
+					pos2.xpos = pos1.xpos - 1;
+				} else {
+					pos1.ypos = (int) Math.round((double) e.getY()
+							/ Common.squaresize);
+					pos2.ypos = pos1.ypos - 1;
+				}
 
-			if (pos1.xpos < Common.boardwidth && pos1.ypos < Common.boardheight
-					&& game.board.getState(pos1) != State.WALL)
-				game.addObject(new HalfDoneWall(game, pos1, dir,
-						Direction.POSITIVE));
+				if (pos1.xpos < Common.boardwidth
+						&& pos1.ypos < Common.boardheight
+						&& game.board.getState(pos1) != State.WALL)
+					game.addObject(new HalfDoneWall(game, pos1, dir,
+							Direction.POSITIVE));
 
-			if (pos2.xpos >= 0 && pos2.ypos >= 0
-					&& game.board.getState(pos2) != State.WALL)
-				game.addObject(new HalfDoneWall(game, pos2, dir,
-						Direction.NEGATIVE));
+				if (pos2.xpos >= 0 && pos2.ypos >= 0
+						&& game.board.getState(pos2) != State.WALL)
+					game.addObject(new HalfDoneWall(game, pos2, dir,
+							Direction.NEGATIVE));
+			}
 			break;
 
 		case 3:

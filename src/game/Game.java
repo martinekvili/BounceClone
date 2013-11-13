@@ -47,6 +47,8 @@ public class Game {
 			if (i.next().isRemoveable())
 				i.remove();
 		}
+
+		// System.out.println(board.getPercent());
 	}
 
 	public void paintObjects(Graphics g) {

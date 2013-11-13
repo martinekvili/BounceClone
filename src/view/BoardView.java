@@ -8,7 +8,6 @@ import java.awt.Graphics;
 
 import javax.swing.JPanel;
 
-import top.Common;
 import control.WallBuilder;
 
 public class BoardView extends JPanel {
@@ -21,15 +20,12 @@ public class BoardView extends JPanel {
 		game = g;
 		addMouseListener(new WallBuilder(game));
 		setCursor(new Cursor(Cursor.N_RESIZE_CURSOR));
+		setBackground(Color.WHITE);
 	}
 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
-		// g.setColor(Color.BLACK);
-		// g.fillRect(0, 0, 900, 600);
-		g.setColor(Color.WHITE);
-		g.fillRect(0, 0, Common.width, Common.height);
 		game.paintObjects(g);
 		game.paintBoard(g);
 

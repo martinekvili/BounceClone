@@ -4,6 +4,8 @@ import top.Common;
 
 public class Board {
 
+	private int wallnum;
+
 	private Game parent;
 
 	public enum State {
@@ -13,6 +15,8 @@ public class Board {
 	private State[][] board;
 
 	public Board(Game p) {
+		wallnum = 0;
+
 		parent = p;
 
 		board = new State[Common.boardheight][Common.boardwidth];
@@ -34,6 +38,8 @@ public class Board {
 
 	public void setState(BoardPos pos, State stat) {
 		board[pos.ypos][pos.xpos] = stat;
+		if (stat == State.WALL)
+			wallnum++;
 	}
 
 	public void fillFromPos(BoardPos pos) {
@@ -50,7 +56,7 @@ public class Board {
 			fill(new BoardPos(pos.xpos, pos.ypos + 1));
 			fill(new BoardPos(pos.xpos, pos.ypos - 1));
 			return;
-		
+
 		default:
 			return;
 		}
@@ -66,7 +72,7 @@ public class Board {
 				sandbox[i][j] = board[i][j];
 			}
 		}
-		
+
 		for (int i = 0; i < parent.balls; i++) {
 			Vector vec = parent.objects.get(i).getVec();
 			BoardPos tmp = BoardPos.vecToPos(vec);
@@ -90,11 +96,19 @@ public class Board {
 					&& recursiveTest(new BoardPos(pos.xpos, pos.ypos - 1),
 							sandbox)
 					&& recursiveTest(new BoardPos(pos.xpos + 1, pos.ypos),
-							sandbox) && recursiveTest(new BoardPos(pos.xpos - 1,
-					pos.ypos), sandbox));
+							sandbox) && recursiveTest(new BoardPos(
+					pos.xpos - 1, pos.ypos), sandbox));
 
 		default:
 			return false;
 		}
+	}
+
+	public int getPercent() {
+		int all = (Common.boardheight - 2) * (Common.boardwidth - 2);
+
+		double percent = (double) wallnum / all;
+
+		return (int) (percent * 100);
 	}
 }

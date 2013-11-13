@@ -82,7 +82,8 @@ public class Ball implements GameObject {
 	}
 
 	public Vector getVec() {
-		return new Vector(place.x + Common.ballsize / 2, place.y + Common.ballsize / 2);
+		return new Vector(place.x + Common.ballsize / 2, place.y
+				+ Common.ballsize / 2);
 	}
 
 }

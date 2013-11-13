@@ -61,25 +61,25 @@ public class HalfDoneWall implements GameObject {
 
 		return new BoardPos(startpoint.xpos + xd, startpoint.ypos + yd);
 	}
-	
+
 	private BoardPos[] getPositions(int i) {
 		BoardPos[] tomb = new BoardPos[2];
 		BoardPos pos = getPos(i);
-		
+
 		int dx = 0, dy = 0;
-		
+
 		if (orientation == Orientation.HORIZONTAL)
 			dy = 1;
 		else
 			dx = 1;
-		
+
 		tomb[0] = new BoardPos(pos.xpos + dx, pos.ypos + dy);
-		
+
 		dx *= -1;
 		dy *= -1;
-		
+
 		tomb[1] = new BoardPos(pos.xpos + dx, pos.ypos + dy);
-		
+
 		return tomb;
 	}
 
@@ -110,28 +110,28 @@ public class HalfDoneWall implements GameObject {
 			}
 			break;
 
-		case BUILT:			
+		case BUILT:
 			BoardPos otherwallstartpos = getPos(-1);
-			
+
 			switch (parent.board.getState(otherwallstartpos)) {
 			case EMPTY:
 				status = Status.REMOVEABLE;
 				break;
-				
+
 			case WALL:
 				for (int i = 0; i < length; i++) {
 					BoardPos[] positions = getPositions(i);
-					
+
 					for (BoardPos pos : positions)
-						parent.board.fillFromPos(pos);	
+						parent.board.fillFromPos(pos);
 				}
 				status = Status.REMOVEABLE;
 				break;
-				
+
 			default:
 				break;
 			}
-			
+
 			break;
 
 		default:
@@ -180,7 +180,5 @@ public class HalfDoneWall implements GameObject {
 	public Vector getVec() {
 		return null;
 	}
-	
-	
 
 }

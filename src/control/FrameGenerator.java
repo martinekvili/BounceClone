@@ -1,38 +1,54 @@
 package control;
 
 import game.Game;
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.Timer;
-
 import top.Common;
 import view.BoardView;
 
-public class FrameGenerator implements ActionListener {
+public class FrameGenerator extends Thread {
 
-	private Timer timer;
 	private Game game;
 	private BoardView view;
+	private int waittime;
+
+	public volatile boolean running;
+	public volatile boolean paused;
+
+	private long frames;
+	private long time;
 
 	public FrameGenerator(Game g, BoardView v) {
 		game = g;
 		view = v;
-		timer = new Timer(1000 / Common.framerate, this);
+		waittime = 1000 / Common.framerate;
+		running = true;
+		paused = false;
+
+		frames = 0;
+	}
+
+	public void end() {
+		running = false;
 	}
 
 	public void start() {
-		timer.start();
+		time = System.currentTimeMillis();
+		super.start();
 	}
 
-	public void stop() {
-		timer.stop();
-	}
-
-	public void actionPerformed(ActionEvent arg0) {
-		game.step();
-		view.repaint();
+	public void run() {
+		while (running) {
+			if (!paused) {
+				frames++;
+				game.step();
+				view.repaint();
+				try {
+					sleep(waittime);
+				} catch (InterruptedException e) {
+				}
+				System.out.println((double) frames
+						/ (System.currentTimeMillis() - time) * 1000);
+			}
+		}
 	}
 
 }

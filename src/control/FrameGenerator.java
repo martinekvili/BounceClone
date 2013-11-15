@@ -2,12 +2,12 @@ package control;
 
 import game.Game;
 import top.Common;
-import view.BoardView;
+import view.GamePanel;
 
 public class FrameGenerator extends Thread {
 
 	private Game game;
-	private BoardView view;
+	private GamePanel view;
 	private int waittime;
 
 	public volatile boolean running;
@@ -16,7 +16,7 @@ public class FrameGenerator extends Thread {
 	private long frames;
 	private long time;
 
-	public FrameGenerator(Game g, BoardView v) {
+	public FrameGenerator(Game g, GamePanel v) {
 		game = g;
 		view = v;
 		waittime = 1000 / Common.framerate;
@@ -39,8 +39,12 @@ public class FrameGenerator extends Thread {
 		while (running) {
 			if (!paused) {
 				frames++;
+
+				if (frames % Common.framerate == 0)
+					game.decrementTime();
+
 				game.step();
-				view.repaint();
+				view.refresh();
 				try {
 					sleep(waittime);
 				} catch (InterruptedException e) {

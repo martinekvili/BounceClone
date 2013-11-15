@@ -6,7 +6,7 @@ import java.awt.BorderLayout;
 
 import javax.swing.JFrame;
 
-import view.BoardView;
+import view.GamePanel;
 import control.FrameGenerator;
 
 public class Main {
@@ -15,13 +15,14 @@ public class Main {
 		Game g = new Game(2);
 
 		JFrame jf = new JFrame();
-		BoardView bv = new BoardView(g);
-		jf.add(bv, BorderLayout.CENTER);
-		jf.setSize(Common.width + 50, Common.height + 50);
+		GamePanel gp = new GamePanel(g);
+		jf.add(gp, BorderLayout.CENTER);
+		jf.setSize(Common.width + 6, Common.height + 55);
+		jf.setResizable(false);
 		jf.setVisible(true);
 		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		FrameGenerator fg = new FrameGenerator(g, bv);
+		FrameGenerator fg = new FrameGenerator(g, gp);
 		fg.start();
 	}
 

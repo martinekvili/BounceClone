@@ -11,16 +11,22 @@ import view.Place;
 
 public class Game {
 
+	public enum Stat {
+		RUNNING, PAUSED, OVER, WON;
+	}
+
 	private int time;
 	int lives;
 	int balls;
 	public Board board;
 
+	public Stat state;
+
 	List<GameObject> objects;
 
 	public Game(int level) {
 
-		time = 90 + level * 30;
+		time = level * 15;
 		lives = 2 + level;
 		balls = 2 + level;
 
@@ -30,6 +36,8 @@ public class Game {
 
 		for (int i = 0; i < balls; i++)
 			objects.add(new Ball(this));
+
+		state = Stat.RUNNING;
 	}
 
 	public void addObject(GameObject o) {
@@ -37,18 +45,23 @@ public class Game {
 	}
 
 	public void step() {
-		for (GameObject o : objects) {
-			o.step();
-			o.collide();
+		if (state == Stat.RUNNING) {
+			for (GameObject o : objects) {
+				o.step();
+				o.collide();
+			}
+
+			Iterator<GameObject> i = objects.iterator();
+			while (i.hasNext()) {
+				if (i.next().isRemoveable())
+					i.remove();
+			}
 		}
 
-		Iterator<GameObject> i = objects.iterator();
-		while (i.hasNext()) {
-			if (i.next().isRemoveable())
-				i.remove();
-		}
-
-		// System.out.println(board.getPercent());
+		if (lives <= 0 || time <= 0)
+			state = Stat.OVER;
+		else if (board.getPercent() >= 75)
+			state = Stat.WON;
 	}
 
 	public void paintObjects(Graphics g) {
@@ -85,5 +98,21 @@ public class Game {
 
 	public boolean freeToBulid() {
 		return (objects.size() == balls);
+	}
+
+	public String getLives() {
+		return Integer.toString(lives);
+	}
+
+	public String getPercent() {
+		return Integer.toString(board.getPercent());
+	}
+
+	public String getTime() {
+		return Integer.toString(time);
+	}
+
+	public void decrementTime() {
+		time--;
 	}
 }

@@ -23,7 +23,7 @@ public class GameSession {
 			view.setGame(game);
 			FrameGenerator framegen = new FrameGenerator(game,
 					view.getGamePanel());
-
+			view.setFrameGenerator(framegen);
 			framegen.start();
 			try {
 				framegen.join();

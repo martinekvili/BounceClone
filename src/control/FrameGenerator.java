@@ -10,6 +10,7 @@ public class FrameGenerator extends Thread {
 	private Game game;
 	private GamePanel view;
 	private int waittime;
+	private volatile boolean paused;
 
 	private long frames;
 	private long time;
@@ -19,7 +20,12 @@ public class FrameGenerator extends Thread {
 		view = v;
 		waittime = 1000 / Common.framerate;
 
+		paused = false;
 		frames = 0;
+	}
+	
+	public void playPause() {
+		paused = !paused;
 	}
 
 	public void start() {
@@ -29,7 +35,8 @@ public class FrameGenerator extends Thread {
 
 	public void run() {
 		while (game.state != Stat.OVER && game.state != Stat.WON) {
-			if (game.state != Stat.PAUSED) {
+			if (!paused) {
+				System.out.println(frames);
 				frames++;
 
 				if (frames % Common.framerate == 0)
@@ -41,8 +48,8 @@ public class FrameGenerator extends Thread {
 					sleep(waittime);
 				} catch (InterruptedException e) {
 				}
-				System.out.println((double) frames
-						/ (System.currentTimeMillis() - time) * 1000);
+				//System.out.println((double) frames
+				//		/ (System.currentTimeMillis() - time) * 1000);
 			}
 		}
 	}

@@ -6,6 +6,7 @@ import java.awt.BorderLayout;
 
 import javax.swing.JFrame;
 
+import control.FrameGenerator;
 import top.Common;
 
 public class GameFrame extends JFrame {
@@ -28,6 +29,10 @@ public class GameFrame extends JFrame {
 
 	public void setGame(Game g) {
 		gamepanel.setGame(g);
+	}
+	
+	public void setFrameGenerator(FrameGenerator fg) {
+		gamepanel.setFrameGenerator(fg);
 	}
 
 	public GamePanel getGamePanel() {

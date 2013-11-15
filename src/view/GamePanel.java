@@ -10,6 +10,9 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import control.FrameGenerator;
+import control.PauseListener;
+
 public class GamePanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
@@ -18,11 +21,14 @@ public class GamePanel extends JPanel {
 	private JLabel lives;
 	private JLabel percent;
 	private JLabel time;
+	
+	private PauseListener pauselistener;
 
 	public GamePanel() {
 		setLayout(new BorderLayout());
 
 		board = new BoardView();
+		pauselistener = new PauseListener();
 
 		add(board, BorderLayout.CENTER);
 
@@ -31,20 +37,24 @@ public class GamePanel extends JPanel {
 
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.weightx = 0.5;
+		c.weightx = 0.1;
 
-		JButton back = new JButton("Back to Menu");
-
-		c.gridwidth = 2;
-		bottom.add(back, c);
+		JButton pause = new JButton("Pause");
+		pause.addActionListener(pauselistener);
 
 		c.gridwidth = 1;
-		bottom.add(new JLabel(), c);
+		bottom.add(pause, c);
+
+		c.gridwidth = 2;
+		c.weightx = 1;
+		bottom.add(new JLabel(""), c);
 
 		lives = new JLabel();
 		percent = new JLabel();
 		time = new JLabel();
 
+		c.gridwidth = 1;
+		c.weightx = 0.1;
 		bottom.add(new JLabel("Lives:"), c);
 		bottom.add(lives, c);
 		bottom.add(new JLabel("Time:"), c);
@@ -64,6 +74,10 @@ public class GamePanel extends JPanel {
 
 	public void setGame(Game g) {
 		board.setGame(g);
+	}
+
+	public void setFrameGenerator(FrameGenerator fg) {
+		pauselistener.setFrameGenerator(fg);
 	}
 
 }

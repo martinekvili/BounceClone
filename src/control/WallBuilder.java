@@ -88,4 +88,8 @@ public class WallBuilder implements MouseListener {
 	public void mouseClicked(MouseEvent e) {
 	}
 
+	public void setGame(Game g) {
+		game = g;
+	}
+
 }

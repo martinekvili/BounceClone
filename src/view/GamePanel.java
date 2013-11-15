@@ -19,10 +19,10 @@ public class GamePanel extends JPanel {
 	private JLabel percent;
 	private JLabel time;
 
-	public GamePanel(Game g) {
+	public GamePanel() {
 		setLayout(new BorderLayout());
 
-		board = new BoardView(g);
+		board = new BoardView();
 
 		add(board, BorderLayout.CENTER);
 
@@ -60,6 +60,10 @@ public class GamePanel extends JPanel {
 		lives.setText(board.game.getLives());
 		percent.setText(board.game.getPercent());
 		time.setText(board.game.getTime());
+	}
+
+	public void setGame(Game g) {
+		board.setGame(g);
 	}
 
 }

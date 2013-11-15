@@ -17,10 +17,11 @@ public class BoardView extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	Game game;
+	private WallBuilder listener;
 
-	public BoardView(Game g) {
-		game = g;
-		addMouseListener(new WallBuilder(game));
+	public BoardView() {
+		listener = new WallBuilder(game);
+		addMouseListener(listener);
 		setCursor(new Cursor(Cursor.N_RESIZE_CURSOR));
 		setBackground(Color.WHITE);
 		setPreferredSize(new Dimension(Common.width, Common.height));
@@ -31,7 +32,11 @@ public class BoardView extends JPanel {
 
 		game.paintObjects(g);
 		game.paintBoard(g);
+	}
 
+	public void setGame(Game g) {
+		listener.setGame(g);
+		game = g;
 	}
 
 }

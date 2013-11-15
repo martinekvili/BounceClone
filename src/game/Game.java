@@ -26,7 +26,7 @@ public class Game {
 
 	public Game(int level) {
 
-		time = level * 15;
+		time = 90 + level * 30;
 		lives = 2 + level;
 		balls = 2 + level;
 

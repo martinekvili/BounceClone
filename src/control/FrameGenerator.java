@@ -1,6 +1,7 @@
 package control;
 
 import game.Game;
+import game.Game.Stat;
 import top.Common;
 import view.GamePanel;
 
@@ -10,9 +11,6 @@ public class FrameGenerator extends Thread {
 	private GamePanel view;
 	private int waittime;
 
-	public volatile boolean running;
-	public volatile boolean paused;
-
 	private long frames;
 	private long time;
 
@@ -20,14 +18,8 @@ public class FrameGenerator extends Thread {
 		game = g;
 		view = v;
 		waittime = 1000 / Common.framerate;
-		running = true;
-		paused = false;
 
 		frames = 0;
-	}
-
-	public void end() {
-		running = false;
 	}
 
 	public void start() {
@@ -36,8 +28,8 @@ public class FrameGenerator extends Thread {
 	}
 
 	public void run() {
-		while (running) {
-			if (!paused) {
+		while (game.state != Stat.OVER && game.state != Stat.WON) {
+			if (game.state != Stat.PAUSED) {
 				frames++;
 
 				if (frames % Common.framerate == 0)

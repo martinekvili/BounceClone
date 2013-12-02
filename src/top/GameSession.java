@@ -11,6 +11,7 @@ import control.FrameGenerator;
 public class GameSession {
 
 	private int gamenumber;
+	private int points;
 	private GameFrame view;
 	private boolean over;
 	private String name;
@@ -18,6 +19,7 @@ public class GameSession {
 
 	public GameSession(GameFrame f) {
 		gamenumber = 0;
+		points = 0;
 		view = f;
 		over = false;
 	}
@@ -25,7 +27,7 @@ public class GameSession {
 	public void game() {
 		while (!over) {
 			view.setGameSession(this);
-			Game game = new Game(gamenumber);
+			Game game = new Game(gamenumber, points);
 			view.setGame(game);
 			framegen = new FrameGenerator(game, view.getGamePanel());
 			framegen.start();
@@ -44,6 +46,10 @@ public class GameSession {
 				JOptionPane.showMessageDialog(view,
 						"Congratz, you have done level " + (gamenumber + 1)
 								+ "!", "Hey!", JOptionPane.INFORMATION_MESSAGE);
+				
+				points += game.getTimeNumber(); 
+				points += (game.getLivesNumber() - 1) * 60;
+				
 				gamenumber++;
 			}
 		}

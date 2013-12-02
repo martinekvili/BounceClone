@@ -21,6 +21,7 @@ public class GamePanel extends JPanel {
 	private JLabel lives;
 	private JLabel percent;
 	private JLabel time;
+	private JLabel points;
 
 	private PauseListener pauselistener;
 
@@ -52,6 +53,7 @@ public class GamePanel extends JPanel {
 		lives = new JLabel();
 		percent = new JLabel();
 		time = new JLabel();
+		points = new JLabel();
 
 		c.gridwidth = 1;
 		c.weightx = 0.1;
@@ -61,7 +63,9 @@ public class GamePanel extends JPanel {
 		bottom.add(time, c);
 		bottom.add(new JLabel("Percent:"), c);
 		bottom.add(percent, c);
-
+		bottom.add(new JLabel("Points:"), c);
+		bottom.add(points, c);
+		
 		add(bottom, BorderLayout.SOUTH);
 	}
 
@@ -70,6 +74,7 @@ public class GamePanel extends JPanel {
 		lives.setText(board.game.getLives());
 		percent.setText(board.game.getPercent());
 		time.setText(board.game.getTime());
+		points.setText(board.game.getPoints());
 	}
 
 	public void setGame(Game g) {

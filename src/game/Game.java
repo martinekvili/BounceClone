@@ -16,6 +16,7 @@ public class Game {
 	}
 
 	private int time;
+	private int points;
 	int lives;
 	int balls;
 	public Board board;
@@ -24,7 +25,8 @@ public class Game {
 
 	List<GameObject> objects;
 
-	public Game(int level) {
+	public Game(int level, int p) {
+		points = p;
 
 		time = 90 + level * 30;
 		lives = 2 + level;
@@ -103,6 +105,10 @@ public class Game {
 	public String getLives() {
 		return Integer.toString(lives);
 	}
+	
+	public int getLivesNumber() {
+		return lives;
+	}
 
 	public String getPercent() {
 		return Integer.toString(board.getPercent());
@@ -111,8 +117,16 @@ public class Game {
 	public String getTime() {
 		return Integer.toString(time);
 	}
+	
+	public int getTimeNumber() {
+		return time;
+	}
 
 	public void decrementTime() {
 		time--;
+	}
+	
+	public String getPoints() {
+		return Integer.toString(points);
 	}
 }

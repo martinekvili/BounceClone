@@ -13,7 +13,8 @@ public class FrameGenerator extends Thread {
 	private volatile boolean paused;
 
 	private long frames;
-	//private long time;
+
+	// private long time;
 
 	public FrameGenerator(Game g, GamePanel v) {
 		game = g;
@@ -23,20 +24,20 @@ public class FrameGenerator extends Thread {
 		paused = false;
 		frames = 0;
 	}
-	
+
 	public void playPause() {
 		paused = !paused;
 	}
 
-//	public void start() {
-//		time = System.currentTimeMillis();
-//		super.start();
-//	}
+	// public void start() {
+	// time = System.currentTimeMillis();
+	// super.start();
+	// }
 
 	public void run() {
 		while (game.state != GameState.OVER && game.state != GameState.WON) {
 			if (!paused) {
-				//System.out.println(frames);
+				// System.out.println(frames);
 				frames++;
 
 				if (frames % Common.framerate == 0)
@@ -48,8 +49,8 @@ public class FrameGenerator extends Thread {
 					sleep(waittime);
 				} catch (InterruptedException e) {
 				}
-				//System.out.println((double) frames
-				//		/ (System.currentTimeMillis() - time) * 1000);
+				// System.out.println((double) frames
+				// / (System.currentTimeMillis() - time) * 1000);
 			}
 		}
 	}

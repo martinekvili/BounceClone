@@ -10,7 +10,6 @@ import javax.swing.JPanel;
 
 import top.Common;
 import top.GameSession;
-import control.FrameGenerator;
 
 public class GameFrame extends JFrame {
 
@@ -18,14 +17,14 @@ public class GameFrame extends JFrame {
 
 	private GamePanel gamepanel;
 	private MenuPanel menupanel;
-	
+
 	private CardLayout layout;
 	private JPanel window;
 	private boolean ismenu;
-	
-//	public JPanel getWindow() {
-//		return window;
-//	}
+
+	// public JPanel getWindow() {
+	// return window;
+	// }
 
 	public GameFrame() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -33,48 +32,44 @@ public class GameFrame extends JFrame {
 		setResizable(false);
 		setTitle("BounceClone");
 		setLocation(100, 100);
-		
+
 		window = new JPanel();
-		
+
 		layout = new CardLayout();
 		window.setLayout(layout);
 
 		gamepanel = new GamePanel();
 		menupanel = new MenuPanel(this);
-		
+
 		window.add(menupanel, "menu");
 		window.add(gamepanel, "game");
-		
+
 		ismenu = true;
 		layout.show(window, "menu");
 		change();
-		
+
 		add(window, BorderLayout.CENTER);
-		
+
 		setVisible(true);
 	}
 
 	public void setGame(Game g) {
 		gamepanel.setGame(g);
 	}
-	
-	public void setFrameGenerator(FrameGenerator fg) {
-		gamepanel.setFrameGenerator(fg);
-	}
 
 	public GamePanel getGamePanel() {
 		return gamepanel;
 	}
-	
+
 	public void change() {
-		//setVisible(false);
+		// setVisible(false);
 		layout.show(window, ismenu ? "game" : "menu");
 		ismenu = !ismenu;
-		//setVisible(true);
-		//repaint();
+		// setVisible(true);
+		// repaint();
 	}
 
 	public void setGameSession(GameSession gameSession) {
-			gamepanel.setGameSession(gameSession);
+		gamepanel.setGameSession(gameSession);
 	}
 }

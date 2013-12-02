@@ -11,7 +11,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import top.GameSession;
-import control.FrameGenerator;
 import control.PauseListener;
 
 public class GamePanel extends JPanel {
@@ -22,7 +21,7 @@ public class GamePanel extends JPanel {
 	private JLabel lives;
 	private JLabel percent;
 	private JLabel time;
-	
+
 	private PauseListener pauselistener;
 
 	public GamePanel() {
@@ -75,10 +74,6 @@ public class GamePanel extends JPanel {
 
 	public void setGame(Game g) {
 		board.setGame(g);
-	}
-
-	public void setFrameGenerator(FrameGenerator fg) {
-		pauselistener.setFrameGenerator(fg);
 	}
 
 	public void setGameSession(GameSession gameSession) {

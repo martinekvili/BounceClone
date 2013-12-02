@@ -1,7 +1,6 @@
 package top;
 
 import view.GameFrame;
-import view.NameInputFrame;
 
 public class Main {
 
@@ -9,8 +8,8 @@ public class Main {
 		GameFrame gf = new GameFrame();
 		GameSession gs = new GameSession(gf);
 		gs.game();
-		//gf.setFocusable(false);
-		//NameInputFrame nif = new NameInputFrame();
+		// gf.setFocusable(false);
+		// NameInputFrame nif = new NameInputFrame();
 	}
 
 }

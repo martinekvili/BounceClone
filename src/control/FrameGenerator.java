@@ -1,7 +1,7 @@
 package control;
 
 import game.Game;
-import game.Game.Stat;
+import game.Game.GameState;
 import top.Common;
 import view.GamePanel;
 
@@ -13,7 +13,7 @@ public class FrameGenerator extends Thread {
 	private volatile boolean paused;
 
 	private long frames;
-	private long time;
+	//private long time;
 
 	public FrameGenerator(Game g, GamePanel v) {
 		game = g;
@@ -28,15 +28,15 @@ public class FrameGenerator extends Thread {
 		paused = !paused;
 	}
 
-	public void start() {
-		time = System.currentTimeMillis();
-		super.start();
-	}
+//	public void start() {
+//		time = System.currentTimeMillis();
+//		super.start();
+//	}
 
 	public void run() {
-		while (game.state != Stat.OVER && game.state != Stat.WON) {
+		while (game.state != GameState.OVER && game.state != GameState.WON) {
 			if (!paused) {
-				System.out.println(frames);
+				//System.out.println(frames);
 				frames++;
 
 				if (frames % Common.framerate == 0)

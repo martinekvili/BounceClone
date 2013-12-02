@@ -30,8 +30,10 @@ public class BoardView extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
-		game.paintObjects(g);
-		game.paintBoard(g);
+		if (game != null) {
+			game.paintObjects(g);
+			game.paintBoard(g);
+		}
 	}
 
 	public void setGame(Game g) {

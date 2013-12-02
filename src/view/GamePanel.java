@@ -10,6 +10,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import top.GameSession;
 import control.FrameGenerator;
 import control.PauseListener;
 
@@ -78,6 +79,10 @@ public class GamePanel extends JPanel {
 
 	public void setFrameGenerator(FrameGenerator fg) {
 		pauselistener.setFrameGenerator(fg);
+	}
+
+	public void setGameSession(GameSession gameSession) {
+		pauselistener.setGamesession(gameSession);
 	}
 
 }

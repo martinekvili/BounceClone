@@ -1,6 +1,6 @@
 package game;
 
-import game.Board.State;
+import game.Board.BoardState;
 
 import java.awt.Graphics;
 import java.util.Random;
@@ -45,7 +45,7 @@ public class Ball implements GameObject {
 			pos = BoardPos.vecToPos(bottom);
 		}
 
-		if (parent.board.getState(pos) == State.WALL) {
+		if (parent.board.getState(pos) == BoardState.WALL) {
 			speed.y *= -1;
 		}
 
@@ -59,13 +59,13 @@ public class Ball implements GameObject {
 			pos = BoardPos.vecToPos(right);
 		}
 
-		if (parent.board.getState(pos) == State.WALL) {
+		if (parent.board.getState(pos) == BoardState.WALL) {
 			speed.x *= -1;
 		}
 
 		/* anyways */
-		if (parent.board.getState(pos) == State.UNDER_CONSTRUCTION)
-			parent.board.setState(pos, State.BROKEN_WALL);
+		if (parent.board.getState(pos) == BoardState.UNDER_CONSTRUCTION)
+			parent.board.setState(pos, BoardState.BROKEN_WALL);
 	}
 
 	public void step() {

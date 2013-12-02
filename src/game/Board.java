@@ -8,37 +8,37 @@ public class Board {
 
 	private Game parent;
 
-	public enum State {
+	public enum BoardState {
 		EMPTY, WALL, UNDER_CONSTRUCTION, BROKEN_WALL, BALL
 	};
 
-	private State[][] board;
+	private BoardState[][] board;
 
 	public Board(Game p) {
 		wallnum = 0;
 
 		parent = p;
 
-		board = new State[Common.boardheight][Common.boardwidth];
+		board = new BoardState[Common.boardheight][Common.boardwidth];
 
 		for (int i = 0; i < board.length; i++) {
 			for (int j = 0; j < board[i].length; j++) {
 				if (i == 0 || i == board.length - 1 || j == 0
 						|| j == board[i].length - 1)
-					board[i][j] = State.WALL;
+					board[i][j] = BoardState.WALL;
 				else
-					board[i][j] = State.EMPTY;
+					board[i][j] = BoardState.EMPTY;
 			}
 		}
 	}
 
-	public State getState(BoardPos pos) {
+	public BoardState getState(BoardPos pos) {
 		return board[pos.ypos][pos.xpos];
 	}
 
-	public void setState(BoardPos pos, State stat) {
+	public void setState(BoardPos pos, BoardState stat) {
 		board[pos.ypos][pos.xpos] = stat;
-		if (stat == State.WALL)
+		if (stat == BoardState.WALL)
 			wallnum++;
 	}
 
@@ -50,7 +50,7 @@ public class Board {
 	private void fill(BoardPos pos) {
 		switch (getState(pos)) {
 		case EMPTY:
-			setState(pos, State.WALL);
+			setState(pos, BoardState.WALL);
 			fill(new BoardPos(pos.xpos + 1, pos.ypos));
 			fill(new BoardPos(pos.xpos - 1, pos.ypos));
 			fill(new BoardPos(pos.xpos, pos.ypos + 1));
@@ -63,10 +63,10 @@ public class Board {
 	}
 
 	private boolean test(BoardPos pos) {
-		if (getState(pos) != State.EMPTY)
+		if (getState(pos) != BoardState.EMPTY)
 			return false;
 
-		State[][] sandbox = new State[Common.boardheight][Common.boardwidth];
+		BoardState[][] sandbox = new BoardState[Common.boardheight][Common.boardwidth];
 		for (int i = 0; i < sandbox.length; i++) {
 			for (int j = 0; j < sandbox[i].length; j++) {
 				sandbox[i][j] = board[i][j];
@@ -76,13 +76,13 @@ public class Board {
 		for (int i = 0; i < parent.balls; i++) {
 			Vector vec = parent.objects.get(i).getVec();
 			BoardPos tmp = BoardPos.vecToPos(vec);
-			sandbox[tmp.ypos][tmp.xpos] = State.BALL;
+			sandbox[tmp.ypos][tmp.xpos] = BoardState.BALL;
 		}
 
 		return recursiveTest(pos, sandbox);
 	}
 
-	private boolean recursiveTest(BoardPos pos, State[][] sandbox) {
+	private boolean recursiveTest(BoardPos pos, BoardState[][] sandbox) {
 		switch (sandbox[pos.ypos][pos.xpos]) {
 		case WALL:
 			return true;
@@ -91,7 +91,7 @@ public class Board {
 			return false;
 
 		case EMPTY:
-			sandbox[pos.ypos][pos.xpos] = State.WALL;
+			sandbox[pos.ypos][pos.xpos] = BoardState.WALL;
 			return (recursiveTest(new BoardPos(pos.xpos, pos.ypos + 1), sandbox)
 					&& recursiveTest(new BoardPos(pos.xpos, pos.ypos - 1),
 							sandbox)

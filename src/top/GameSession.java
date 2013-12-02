@@ -1,15 +1,21 @@
 package top;
 
+import javax.swing.JOptionPane;
+
 import game.Game;
-import game.Game.Stat;
+import game.Game.GameState;
 import view.GameFrame;
+import view.NameInputFrame;
 import control.FrameGenerator;
+import control.NameListener;
 
 public class GameSession {
 
 	private int gamenumber;
 	private GameFrame view;
 	private boolean over;
+	private String name;
+	private FrameGenerator framegen;
 
 	public GameSession(GameFrame f) {
 		gamenumber = 0;
@@ -19,9 +25,10 @@ public class GameSession {
 
 	public void game() {
 		while (!over) {
+			view.setGameSession(this);
 			Game game = new Game(gamenumber);
 			view.setGame(game);
-			FrameGenerator framegen = new FrameGenerator(game,
+			framegen = new FrameGenerator(game,
 					view.getGamePanel());
 			view.setFrameGenerator(framegen);
 			framegen.start();
@@ -30,11 +37,27 @@ public class GameSession {
 			} catch (InterruptedException e) {
 			}
 
-			if (game.state == Stat.OVER)
+			if (game.state == GameState.OVER) {
 				over = true;
-			else
+				
+				// System.out.println(name);
+			} else {
+				JOptionPane.showMessageDialog(view,
+						"Congratz, you have done level " + (gamenumber + 1)
+								+ "!", "Hey!", JOptionPane.INFORMATION_MESSAGE);
 				gamenumber++;
+			}
 		}
 	}
 
+	public void setName(String n) {
+		name = n;
+	}
+
+	public void pause() {
+		framegen.playPause();
+		JOptionPane.showMessageDialog(view,
+				"Game paused.", "Hey!", JOptionPane.INFORMATION_MESSAGE);
+		framegen.playPause();
+	}
 }

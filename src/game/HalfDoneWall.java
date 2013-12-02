@@ -1,6 +1,6 @@
 package game;
 
-import game.Board.State;
+import game.Board.BoardState;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -18,7 +18,7 @@ public class HalfDoneWall implements GameObject {
 		POSITIVE, NEGATIVE
 	}
 
-	private enum Status {
+	private enum WallState {
 		GROWING, ABOUT_TO_BUILD, BUILT, REMOVEABLE
 	}
 
@@ -27,7 +27,7 @@ public class HalfDoneWall implements GameObject {
 	private Orientation orientation;
 	private Direction direction;
 
-	private Status status;
+	private WallState status;
 
 	private int stepdivider;
 
@@ -35,7 +35,7 @@ public class HalfDoneWall implements GameObject {
 
 	public HalfDoneWall(Game g, BoardPos pos, Orientation o, Direction d) {
 		stepdivider = 0;
-		status = Status.GROWING;
+		status = WallState.GROWING;
 
 		parent = g;
 		startpoint = pos;
@@ -43,7 +43,7 @@ public class HalfDoneWall implements GameObject {
 		direction = d;
 		length = 1;
 
-		parent.board.setState(startpoint, State.UNDER_CONSTRUCTION);
+		parent.board.setState(startpoint, BoardState.UNDER_CONSTRUCTION);
 	}
 
 	private BoardPos getPos(int i) {
@@ -83,7 +83,7 @@ public class HalfDoneWall implements GameObject {
 		return tomb;
 	}
 
-	private void changeState(State s) {
+	private void changeState(BoardState s) {
 		for (int i = 0; i < length; i++) {
 			BoardPos pos = getPos(i);
 			parent.board.setState(pos, s);
@@ -101,10 +101,10 @@ public class HalfDoneWall implements GameObject {
 
 				BoardPos pos = getPos(length);
 
-				if (parent.board.getState(pos) == State.WALL) {
-					status = Status.ABOUT_TO_BUILD;
+				if (parent.board.getState(pos) == BoardState.WALL) {
+					status = WallState.ABOUT_TO_BUILD;
 				} else {
-					parent.board.setState(pos, State.UNDER_CONSTRUCTION);
+					parent.board.setState(pos, BoardState.UNDER_CONSTRUCTION);
 					length++;
 				}
 			}
@@ -115,7 +115,7 @@ public class HalfDoneWall implements GameObject {
 
 			switch (parent.board.getState(otherwallstartpos)) {
 			case EMPTY:
-				status = Status.REMOVEABLE;
+				status = WallState.REMOVEABLE;
 				break;
 
 			case WALL:
@@ -125,7 +125,7 @@ public class HalfDoneWall implements GameObject {
 					for (BoardPos pos : positions)
 						parent.board.fillFromPos(pos);
 				}
-				status = Status.REMOVEABLE;
+				status = WallState.REMOVEABLE;
 				break;
 
 			default:
@@ -143,10 +143,10 @@ public class HalfDoneWall implements GameObject {
 		for (int i = 0; i < length; i++) {
 			BoardPos pos = getPos(i);
 
-			if (parent.board.getState(pos) == State.BROKEN_WALL) {
-				changeState(State.EMPTY);
+			if (parent.board.getState(pos) == BoardState.BROKEN_WALL) {
+				changeState(BoardState.EMPTY);
 
-				status = Status.REMOVEABLE;
+				status = WallState.REMOVEABLE;
 
 				parent.lives--;
 
@@ -154,9 +154,9 @@ public class HalfDoneWall implements GameObject {
 			}
 		}
 
-		if (status == Status.ABOUT_TO_BUILD) {
-			changeState(State.WALL);
-			status = Status.BUILT;
+		if (status == WallState.ABOUT_TO_BUILD) {
+			changeState(BoardState.WALL);
+			status = WallState.BUILT;
 		}
 	}
 
@@ -174,7 +174,7 @@ public class HalfDoneWall implements GameObject {
 	}
 
 	public boolean isRemoveable() {
-		return (status == Status.REMOVEABLE);
+		return (status == WallState.REMOVEABLE);
 	}
 
 	public Vector getVec() {

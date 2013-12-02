@@ -11,7 +11,7 @@ import view.Place;
 
 public class Game {
 
-	public enum Stat {
+	public enum GameState {
 		RUNNING, PAUSED, OVER, WON;
 	}
 
@@ -20,7 +20,7 @@ public class Game {
 	int balls;
 	public Board board;
 
-	public Stat state;
+	public GameState state;
 
 	List<GameObject> objects;
 
@@ -37,7 +37,7 @@ public class Game {
 		for (int i = 0; i < balls; i++)
 			objects.add(new Ball(this));
 
-		state = Stat.RUNNING;
+		state = GameState.RUNNING;
 	}
 
 	public void addObject(GameObject o) {
@@ -45,7 +45,7 @@ public class Game {
 	}
 
 	public void step() {
-		if (state == Stat.RUNNING) {
+		if (state == GameState.RUNNING) {
 			for (GameObject o : objects) {
 				o.step();
 				o.collide();
@@ -59,9 +59,9 @@ public class Game {
 		}
 
 		if (lives <= 0 || time <= 0)
-			state = Stat.OVER;
+			state = GameState.OVER;
 		else if (board.getPercent() >= 75)
-			state = Stat.WON;
+			state = GameState.WON;
 	}
 
 	public void paintObjects(Graphics g) {

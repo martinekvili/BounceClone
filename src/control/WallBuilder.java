@@ -1,6 +1,6 @@
 package control;
 
-import game.Board.State;
+import game.Board.BoardState;
 import game.BoardPos;
 import game.Game;
 import game.HalfDoneWall;
@@ -48,12 +48,12 @@ public class WallBuilder implements MouseListener {
 
 				if (pos1.xpos < Common.boardwidth
 						&& pos1.ypos < Common.boardheight
-						&& game.board.getState(pos1) != State.WALL)
+						&& game.board.getState(pos1) != BoardState.WALL)
 					game.addObject(new HalfDoneWall(game, pos1, dir,
 							Direction.POSITIVE));
 
 				if (pos2.xpos >= 0 && pos2.ypos >= 0
-						&& game.board.getState(pos2) != State.WALL)
+						&& game.board.getState(pos2) != BoardState.WALL)
 					game.addObject(new HalfDoneWall(game, pos2, dir,
 							Direction.NEGATIVE));
 			}

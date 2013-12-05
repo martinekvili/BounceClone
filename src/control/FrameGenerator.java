@@ -11,6 +11,7 @@ public class FrameGenerator extends Thread {
 	private GamePanel view;
 	private int waittime;
 	private volatile boolean paused;
+	private volatile boolean stopped;
 
 	private long frames;
 
@@ -22,11 +23,16 @@ public class FrameGenerator extends Thread {
 		waittime = 1000 / Common.framerate;
 
 		paused = false;
+		stopped = false;
 		frames = 0;
 	}
 
 	public void playPause() {
 		paused = !paused;
+	}
+
+	public void halt() {
+		stopped = true;
 	}
 
 	// public void start() {
@@ -35,7 +41,8 @@ public class FrameGenerator extends Thread {
 	// }
 
 	public void run() {
-		while (game.state != GameState.OVER && game.state != GameState.WON) {
+		while (game.state != GameState.OVER && game.state != GameState.WON
+				&& !stopped) {
 			if (!paused) {
 				// System.out.println(frames);
 				frames++;

@@ -65,7 +65,7 @@ public class GamePanel extends JPanel {
 		bottom.add(percent, c);
 		bottom.add(new JLabel("Points:"), c);
 		bottom.add(points, c);
-		
+
 		add(bottom, BorderLayout.SOUTH);
 	}
 

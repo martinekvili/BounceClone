@@ -1,6 +1,6 @@
 package view;
 
-import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 
 import javax.swing.JButton;
@@ -12,19 +12,21 @@ public class MenuPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
-	public MenuPanel(GameFrame gf) {
-		MenuListener listener = new MenuListener(gf);
+	private JButton cont;
+
+	public MenuPanel(MenuListener listener) {
+		JPanel top = new JPanel();
 
 		JButton game = new JButton("Start game");
 		game.setActionCommand("game");
 		game.addActionListener(listener);
 
-		JButton cont = new JButton("Continue");
+		cont = new JButton("Continue");
 		cont.setActionCommand("continue");
 		cont.addActionListener(listener);
 
 		JButton highscores = new JButton("Highscores");
-		highscores.setActionCommand("highscores");
+		highscores.setActionCommand("scores");
 		highscores.addActionListener(listener);
 
 		JButton quit = new JButton("Quit");
@@ -39,8 +41,15 @@ public class MenuPanel extends JPanel {
 		panel.add(highscores);
 		panel.add(quit);
 
-		setLayout(new BorderLayout());
-		add(panel, BorderLayout.CENTER);
+		panel.setPreferredSize(new Dimension(300, 150));
+		top.add(panel);
+
+		// setLayout(new BorderLayout());
+		add(top);
+	}
+
+	public void setContinue(boolean enabled) {
+		cont.setEnabled(enabled);
 	}
 
 }

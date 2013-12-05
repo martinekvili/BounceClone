@@ -105,7 +105,7 @@ public class Game {
 	public String getLives() {
 		return Integer.toString(lives);
 	}
-	
+
 	public int getLivesNumber() {
 		return lives;
 	}
@@ -117,7 +117,7 @@ public class Game {
 	public String getTime() {
 		return Integer.toString(time);
 	}
-	
+
 	public int getTimeNumber() {
 		return time;
 	}
@@ -125,7 +125,7 @@ public class Game {
 	public void decrementTime() {
 		time--;
 	}
-	
+
 	public String getPoints() {
 		return Integer.toString(points);
 	}

@@ -54,6 +54,8 @@ public class BounceClone {
 
 	/**
 	 * A program belépési pontja.
+	 * 
+	 * Beolvassa a dicsõséglistát, és megnyit egy ablakot.
 	 */
 	public static void main(String[] args) {
 		open();

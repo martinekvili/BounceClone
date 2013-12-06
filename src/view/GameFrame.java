@@ -77,7 +77,6 @@ public class GameFrame extends JFrame {
 	}
 
 	public void setGameSession(GameSession gameSession) {
-		// gamepanel.setGameSession(gameSession);
 		gamesession = gameSession;
 	}
 

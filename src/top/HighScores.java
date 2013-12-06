@@ -7,12 +7,25 @@ import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
+/**
+ * A dicsõséglistát tartalmazó osztály.
+ * 
+ * Egy JTable modelljeként is szolgál, és serializálható.
+ */
 public class HighScores extends AbstractTableModel implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * A pontokat tartalmazó lista.
+	 */
 	public List<Score> highscores;
 
+	/**
+	 * Konstruktor.
+	 * 
+	 * Üres listát hoz létre.
+	 */
 	public HighScores() {
 		highscores = new ArrayList<Score>();
 	}
@@ -61,8 +74,17 @@ public class HighScores extends AbstractTableModel implements Serializable {
 		return false;
 	}
 
-	public void add(Score s) {
-		highscores.add(s);
+	/**
+	 * Ezzel a függvénnyel tudunk új pontszámot hozzáadni a listához.
+	 * 
+	 * A függvény hozzáadja az új pontszámot, és rögtön újra is rendezi a
+	 * listát.
+	 * 
+	 * @param score
+	 *            - az új pontszám
+	 */
+	public void add(Score score) {
+		highscores.add(score);
 		Collections.sort(highscores);
 	}
 

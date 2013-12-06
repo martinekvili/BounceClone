@@ -38,6 +38,10 @@ public class ButtonListener implements ActionListener {
 
 			if (gameframe.hasGameSession()) {
 				gameframe.getGameSession().halt();
+				try {
+					gameframe.getGameSession().join();
+				} catch (InterruptedException e) {
+				}
 			}
 
 			GameSession session = new GameSession(gameframe);

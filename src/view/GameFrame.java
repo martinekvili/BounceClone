@@ -53,7 +53,7 @@ public class GameFrame extends JFrame {
 		add(window, BorderLayout.CENTER);
 
 		gamesession = null;
-		
+
 		show("menu");
 	}
 
@@ -77,7 +77,7 @@ public class GameFrame extends JFrame {
 	}
 
 	public void setGameSession(GameSession gameSession) {
-		//gamepanel.setGameSession(gameSession);
+		// gamepanel.setGameSession(gameSession);
 		gamesession = gameSession;
 	}
 

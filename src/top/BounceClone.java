@@ -17,7 +17,7 @@ public class BounceClone {
 	 * A dicsõséglista.
 	 */
 	public static HighScores highscores;
-	
+
 	/**
 	 * A dicsõséglistát beolvasó függvény.
 	 * 
@@ -36,7 +36,7 @@ public class BounceClone {
 			System.exit(1);
 		}
 	}
-	
+
 	/**
 	 * A dicsõséglistát elmentõ függvény.
 	 */

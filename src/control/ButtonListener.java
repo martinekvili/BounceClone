@@ -18,11 +18,11 @@ public class ButtonListener implements ActionListener {
 	 */
 	private GameFrame gameframe;
 
-	
 	/**
 	 * Konstruktor.
 	 * 
-	 * @param gameframe - az ablak, amire ráállítjuk az osztályt
+	 * @param gameframe
+	 *            - az ablak, amire ráállítjuk az osztályt
 	 */
 	public ButtonListener(GameFrame gameframe) {
 		this.gameframe = gameframe;
@@ -35,11 +35,11 @@ public class ButtonListener implements ActionListener {
 		switch (arg0.getActionCommand()) {
 		case "game":
 			gameframe.show("game");
-			
+
 			if (gameframe.hasGameSession()) {
 				gameframe.getGameSession().halt();
 			}
-			
+
 			GameSession session = new GameSession(gameframe);
 			session.start();
 			break;
@@ -61,7 +61,7 @@ public class ButtonListener implements ActionListener {
 		case "back":
 			gameframe.show("menu");
 			break;
-			
+
 		case "pause":
 			gameframe.getGameSession().pause();
 

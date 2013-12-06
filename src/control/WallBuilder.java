@@ -42,7 +42,8 @@ public class WallBuilder extends MouseAdapter {
 	/**
 	 * Konstruktor.
 	 * 
-	 * @param game - a játék amiben a falakat építjük
+	 * @param game
+	 *            - a játék amiben a falakat építjük
 	 */
 	public WallBuilder(Game game) {
 		dir = Orientation.VERTICAL;
@@ -119,7 +120,8 @@ public class WallBuilder extends MouseAdapter {
 	/**
 	 * Ezzel a függvénnyel tudjuk másik játékra ráállítani az osztályt.
 	 * 
-	 * @param game - a játék amiben a falakat építjük
+	 * @param game
+	 *            - a játék amiben a falakat építjük
 	 */
 	public void setGame(Game game) {
 		this.game = game;

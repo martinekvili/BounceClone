@@ -2,22 +2,71 @@ package game;
 
 import top.Common;
 
+/**
+ * A pályát reprezentáló osztály.
+ * 
+ * Valójában egy táblázat, melynek minden cellájának különbözõ állapota lehet:
+ * üres, fal, épülõ fal.
+ */
 public class Board {
 
+	/**
+	 * A pályán lévõ felépült falak száma. A százalékszámításhoz szükséges.
+	 */
 	private int wallnum;
 
+	/**
+	 * A játék amihez a pálya tartozik.
+	 */
 	private Game parent;
 
+	/**
+	 * A pálya celláinak állapotai.
+	 */
 	public enum BoardState {
-		EMPTY, WALL, UNDER_CONSTRUCTION, BROKEN_WALL, BALL
+
+		/**
+		 * Üres.
+		 */
+		EMPTY,
+
+		/**
+		 * Felépült fal.
+		 */
+		WALL,
+
+		/**
+		 * Épülõ fal.
+		 */
+		UNDER_CONSTRUCTION,
+
+		/**
+		 * Épülõ fal, aminek nekiment egy labda, így nem épül tovább, hanem
+		 * letörlõdik.
+		 */
+		BROKEN_WALL,
+
+		/**
+		 * Olyan cella, ahol tartózkodik labda: feltöltésnél lényeges.
+		 */
+		BALL
 	};
 
+	/**
+	 * A pályát leíró táblázat.
+	 */
 	private BoardState[][] board;
 
-	public Board(Game p) {
+	/**
+	 * Konstruktor, ami létrehozza az üres pályát.
+	 * 
+	 * @param game
+	 *            - a játék amihez a pálya tartozik
+	 */
+	public Board(Game game) {
 		wallnum = 0;
 
-		parent = p;
+		parent = game;
 
 		board = new BoardState[Common.boardheight][Common.boardwidth];
 
@@ -32,21 +81,58 @@ public class Board {
 		}
 	}
 
+	/**
+	 * Függvény, amellyel lekérdezhetjük a pálya egy adott cellájának állapotát.
+	 * 
+	 * @param pos
+	 *            - a kérdéses cella koordinátái
+	 * @return a kérdéses cella állapota
+	 */
 	public BoardState getState(BoardPos pos) {
 		return board[pos.ypos][pos.xpos];
 	}
 
+	/**
+	 * Függvény, amellyel beállíthatjuk a pálya egy adott cellájának állapotát.
+	 * 
+	 * Ha felépült falat állítunk be, akkor növeli a felépült falak számít. Így
+	 * oldjuk meg hogy az ebben a változóban tárolt érték mindig konzisztens
+	 * maradjon.
+	 * 
+	 * @param pos
+	 *            - a kérdéses cella koordinátái
+	 * @param stat
+	 *            - a beállítandó állapot
+	 */
 	public void setState(BoardPos pos, BoardState stat) {
 		board[pos.ypos][pos.xpos] = stat;
 		if (stat == BoardState.WALL)
 			wallnum++;
 	}
 
+	/**
+	 * Függvény, ami feltölti az adott pozícióból elérhetõ területeket.
+	 * 
+	 * Elérhetõ egy terület, ha nem választja el fal a kezdõponttól. Csak akkor
+	 * töltjük fel a területet, ha egyetlen cellájában sincs labda.
+	 * 
+	 * Valójában ez a függvény csak egy borító a tényleges rekurzív függvények
+	 * felett, de kívülrõl csak ez érhetõ el.
+	 * 
+	 * @param pos
+	 *            - a kezdõpozíció koordinátái
+	 */
 	public void fillFromPos(BoardPos pos) {
 		if (test(pos))
 			fill(pos);
 	}
 
+	/**
+	 * A valódi rekurzívan feltöltõ függvény.
+	 * 
+	 * @param pos
+	 *            - az aktuális pozíció koordinátái
+	 */
 	private void fill(BoardPos pos) {
 		switch (getState(pos)) {
 		case EMPTY:
@@ -62,6 +148,18 @@ public class Board {
 		}
 	}
 
+	/**
+	 * A függvény ami ellenõrzi, hogy az adott kezdõpozícióból végezhetünk-e
+	 * feltöltést.
+	 * 
+	 * Létrehoz egy próba-pályát, amit elkezd feltölteni, és ha közben
+	 * találkozik olyan cellával, amiben labda van, akkor jelez, hogy innen nem
+	 * végezhetünk feltöltést, amúgy pedig igen.
+	 * 
+	 * @param pos
+	 *            - a kezdõpozíció koordinátái
+	 * @return igaz, ha innen végezhetünk feltöltést
+	 */
 	private boolean test(BoardPos pos) {
 		if (getState(pos) != BoardState.EMPTY)
 			return false;
@@ -82,6 +180,15 @@ public class Board {
 		return recursiveTest(pos, sandbox);
 	}
 
+	/**
+	 * Rekurzív függvény, ami a tényleges ellenõrzést végzi.
+	 * 
+	 * @param pos
+	 *            - az aktuális pozíció koordinátái
+	 * @param sandbox
+	 *            - a próba-pálya amin éppen dolgozunk
+	 * @return igaz, ha végezhetünk feltöltést
+	 */
 	private boolean recursiveTest(BoardPos pos, BoardState[][] sandbox) {
 		switch (sandbox[pos.ypos][pos.xpos]) {
 		case WALL:
@@ -104,6 +211,12 @@ public class Board {
 		}
 	}
 
+	/**
+	 * Függvény, amivel lekérdezhetjük, hogy a pálya hány százaléka van
+	 * feltöltve felépült fallal.
+	 * 
+	 * @return a betelített terület százalékban
+	 */
 	public int getPercent() {
 		int all = (Common.boardheight - 2) * (Common.boardwidth - 2);
 

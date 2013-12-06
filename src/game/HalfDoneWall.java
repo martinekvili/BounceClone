@@ -8,51 +8,150 @@ import java.awt.Graphics;
 import top.Common;
 import view.Place;
 
+/**
+ * Az éppen épülõ falat reprezentáló osztály.
+ * 
+ * Megvalósítja a GameObject interface-t.
+ */
 public class HalfDoneWall implements GameObject {
 
+	/**
+	 * A lehetséges állások.
+	 */
 	public enum Orientation {
-		VERTICAL, HORIZONTAL
+
+		/**
+		 * Függõleges irány.
+		 */
+		VERTICAL,
+
+		/**
+		 * Vízszintes irány.
+		 */
+		HORIZONTAL
 	}
 
+	/**
+	 * A lehetséges irányok.
+	 */
 	public enum Direction {
-		POSITIVE, NEGATIVE
+
+		/**
+		 * Pozitív irányba növekszik.
+		 */
+		POSITIVE,
+
+		/**
+		 * Negatív irányba növekszik.
+		 */
+		NEGATIVE
 	}
 
+	/**
+	 * Az épülõ fal lehetséges állapotai.
+	 */
 	private enum WallState {
-		GROWING, ABOUT_TO_BUILD, BUILT, REMOVEABLE
+
+		/**
+		 * Növekvõ.
+		 */
+		GROWING,
+
+		/**
+		 * Már nem tud tovább nõni, következõ lépésben felépül.
+		 */
+		ABOUT_TO_BUILD,
+
+		/**
+		 * Felépült, arra vár, hogy a mellette lévõ épülõ fal felépül-e, mert ha
+		 * igen akkor fel kell tölteni az esetleges üres területeket.
+		 */
+		BUILT,
+
+		/**
+		 * Felépült, és már mellette sem épül másik fal, így törölhetõ.
+		 */
+		REMOVEABLE
 	}
 
+	/**
+	 * A kezdõpontjának koordinátái.
+	 */
 	private BoardPos startpoint;
+
+	/**
+	 * Az aktuális hossz.
+	 */
 	private int length;
+
+	/**
+	 * A fal állása.
+	 */
 	private Orientation orientation;
+
+	/**
+	 * A növekedés iránya.
+	 */
 	private Direction direction;
 
-	private WallState status;
+	/**
+	 * Az aktuális állapot.
+	 */
+	private WallState state;
 
+	/**
+	 * Egy számláló, hogy a fal lassabban épüljön, mint ahogy a játék történik.
+	 */
 	private int stepdivider;
 
+	/**
+	 * A játék ahol a fal épül.
+	 */
 	private Game parent;
 
-	public HalfDoneWall(Game g, BoardPos pos, Orientation o, Direction d) {
+	/**
+	 * Konstruktor.
+	 * 
+	 * @param game
+	 *            - a játék ahol a fal épül
+	 * @param pos
+	 *            - a fal kezdõpozíciója
+	 * @param orientation
+	 *            - a fal állása
+	 * @param direction
+	 *            - a növekedés iránya
+	 */
+	public HalfDoneWall(Game game, BoardPos pos, Orientation orientation,
+			Direction direction) {
 		stepdivider = 0;
-		status = WallState.GROWING;
+		state = WallState.GROWING;
 
-		parent = g;
+		parent = game;
 		startpoint = pos;
-		orientation = o;
-		direction = d;
+		this.orientation = orientation;
+		this.direction = direction;
 		length = 1;
 
 		parent.board.setState(startpoint, BoardState.UNDER_CONSTRUCTION);
 	}
 
-	private BoardPos getPos(int i) {
+	/**
+	 * Egy segédfüggvény.
+	 * 
+	 * A kezdõpozíciótól az itt megadott távolságra lévõ cella koordinátáit adja
+	 * vissza, a fal állása és növekedésének iránya alapján.
+	 * 
+	 * @param distance
+	 *            - a távolság
+	 * @return a kérdéses cella koordinátái
+	 */
+	private BoardPos getPos(int distance) {
 		int xd = 0, yd = 0;
 
 		if (orientation == Orientation.VERTICAL)
-			yd = i;
+			yd = distance;
 		else
-			xd = i;
+			xd = distance;
 
 		if (direction == Direction.NEGATIVE) {
 			xd *= -1;
@@ -62,9 +161,19 @@ public class HalfDoneWall implements GameObject {
 		return new BoardPos(startpoint.xpos + xd, startpoint.ypos + yd);
 	}
 
-	private BoardPos[] getPositions(int i) {
+	/**
+	 * Egy segédfüggvény.
+	 * 
+	 * A kezdõpozíciótól a megadott távolságra lévõ cella melletti két cellát
+	 * adja vissza.
+	 * 
+	 * @param distance
+	 *            - a távolság
+	 * @return a kérdéses két cella koordinátáit tartalmazó tömb
+	 */
+	private BoardPos[] getPositions(int distance) {
 		BoardPos[] tomb = new BoardPos[2];
-		BoardPos pos = getPos(i);
+		BoardPos pos = getPos(distance);
 
 		int dx = 0, dy = 0;
 
@@ -83,6 +192,12 @@ public class HalfDoneWall implements GameObject {
 		return tomb;
 	}
 
+	/**
+	 * Az épülõ fal mentén beállítja a pályán a cellák állapotát.
+	 * 
+	 * @param s
+	 *            - a beállítandó állapot
+	 */
 	private void changeState(BoardState s) {
 		for (int i = 0; i < length; i++) {
 			BoardPos pos = getPos(i);
@@ -90,8 +205,17 @@ public class HalfDoneWall implements GameObject {
 		}
 	}
 
+	/**
+	 * A léptetõ függvény.
+	 * 
+	 * Ha a fal növekvõ állapotban van, akkor növeljük eggyel a méretét.
+	 * 
+	 * Ha viszont felépült állapotban van, akkor ellenõrizzük, hogy mellette
+	 * épül-e még fal, és ha már felépült, akkor elkezdjük betölteni az üres
+	 * területeket.
+	 */
 	public void step() {
-		switch (status) {
+		switch (state) {
 		case GROWING:
 			if (stepdivider < Common.wallstepdivider)
 				stepdivider++;
@@ -102,7 +226,7 @@ public class HalfDoneWall implements GameObject {
 				BoardPos pos = getPos(length);
 
 				if (parent.board.getState(pos) == BoardState.WALL) {
-					status = WallState.ABOUT_TO_BUILD;
+					state = WallState.ABOUT_TO_BUILD;
 				} else {
 					parent.board.setState(pos, BoardState.UNDER_CONSTRUCTION);
 					length++;
@@ -115,7 +239,7 @@ public class HalfDoneWall implements GameObject {
 
 			switch (parent.board.getState(otherwallstartpos)) {
 			case EMPTY:
-				status = WallState.REMOVEABLE;
+				state = WallState.REMOVEABLE;
 				break;
 
 			case WALL:
@@ -125,7 +249,7 @@ public class HalfDoneWall implements GameObject {
 					for (BoardPos pos : positions)
 						parent.board.fillFromPos(pos);
 				}
-				status = WallState.REMOVEABLE;
+				state = WallState.REMOVEABLE;
 				break;
 
 			default:
@@ -139,6 +263,15 @@ public class HalfDoneWall implements GameObject {
 		}
 	}
 
+	/**
+	 * Az ütközéseket kezelõ függvény.
+	 * 
+	 * Végigvizsgálja a falat, hogy beleütközött-e egy labda, ha igen akkor
+	 * kitörli magát.
+	 * 
+	 * Ha nem, és a fal felépíthetõ állapotban van, akkor viszont felépíti
+	 * magát.
+	 */
 	public void collide() {
 		for (int i = 0; i < length; i++) {
 			BoardPos pos = getPos(i);
@@ -146,7 +279,7 @@ public class HalfDoneWall implements GameObject {
 			if (parent.board.getState(pos) == BoardState.BROKEN_WALL) {
 				changeState(BoardState.EMPTY);
 
-				status = WallState.REMOVEABLE;
+				state = WallState.REMOVEABLE;
 
 				parent.lives--;
 
@@ -154,9 +287,9 @@ public class HalfDoneWall implements GameObject {
 			}
 		}
 
-		if (status == WallState.ABOUT_TO_BUILD) {
+		if (state == WallState.ABOUT_TO_BUILD) {
 			changeState(BoardState.WALL);
-			status = WallState.BUILT;
+			state = WallState.BUILT;
 		}
 	}
 
@@ -174,7 +307,7 @@ public class HalfDoneWall implements GameObject {
 	}
 
 	public boolean isRemoveable() {
-		return (status == WallState.REMOVEABLE);
+		return (state == WallState.REMOVEABLE);
 	}
 
 	public Vector getVec() {

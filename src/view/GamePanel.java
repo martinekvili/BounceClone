@@ -77,5 +77,5 @@ public class GamePanel extends JPanel {
 	public void setGame(Game g) {
 		board.setGame(g);
 	}
-	
+
 }

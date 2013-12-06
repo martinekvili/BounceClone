@@ -8,8 +8,8 @@ import view.GamePanel;
 /**
  * A játékot léptetõ osztály.
  * 
- * Önálló szálként fut, szüneteltethetõ és végleg leállítható kívülrõl is,
- * de ha a játéknak vége, akkor is leáll.
+ * Önálló szálként fut, szüneteltethetõ és végleg leállítható kívülrõl is, de ha
+ * a játéknak vége, akkor is leáll.
  */
 public class FrameGenerator extends Thread {
 
@@ -49,8 +49,10 @@ public class FrameGenerator extends Thread {
 	/**
 	 * Az osztály konstruktora.
 	 * 
-	 * @param game - a léptetendõ játék
-	 * @param view - a frissítendõ megjelenítõ
+	 * @param game
+	 *            - a léptetendõ játék
+	 * @param view
+	 *            - a frissítendõ megjelenítõ
 	 */
 	public FrameGenerator(Game game, GamePanel view) {
 		this.game = game;
@@ -79,9 +81,9 @@ public class FrameGenerator extends Thread {
 	/**
 	 * Maga a léptetést végzõ ciklus.
 	 * 
-	 * Akkor áll le, ha vége a játéknak, vagy kívülrõl leállítottuk.
-	 * Amikor nem szünetel, akkor lépteti a játékot, és frissíti a megjelenítõt.
-	 * Két lépés közt a Thread.sleep() metódus segítségével várakozik.
+	 * Akkor áll le, ha vége a játéknak, vagy kívülrõl leállítottuk. Amikor nem
+	 * szünetel, akkor lépteti a játékot, és frissíti a megjelenítõt. Két lépés
+	 * közt a Thread.sleep() metódus segítségével várakozik.
 	 */
 	public void run() {
 		while (game.state != GameState.OVER && game.state != GameState.WON

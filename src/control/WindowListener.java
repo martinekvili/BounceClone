@@ -2,23 +2,19 @@ package control;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.FileOutputStream;
-import java.io.ObjectOutputStream;
 
-import top.Application;
+import top.BounceClone;
 
+/**
+ * A kilépéskor végzendõ mentést megvalósító osztály.
+ */
 public class WindowListener extends WindowAdapter {
 
+	/**
+	 * Akkor fut le, amikor kilépünk a program.
+	 */
 	public void windowClosing(WindowEvent e) {
-		try {
-			ObjectOutputStream oos = new ObjectOutputStream(
-					new FileOutputStream("scores.dat"));
-			oos.writeObject(Application.highscores);
-			oos.close();
-		} catch (Exception ex) {
-			System.err.println("Unhandled exception.");
-			System.exit(1);
-		}
+		BounceClone.close();
 	}
 
 }

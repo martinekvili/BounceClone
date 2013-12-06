@@ -10,7 +10,7 @@ import javax.swing.JPanel;
 
 import top.Common;
 import top.GameSession;
-import control.MenuListener;
+import control.ButtonListener;
 import control.WindowListener;
 
 public class GameFrame extends JFrame {
@@ -26,12 +26,6 @@ public class GameFrame extends JFrame {
 	private CardLayout layout;
 	private JPanel window;
 
-	// private boolean ismenu;
-
-	// public JPanel getWindow() {
-	// return window;
-	// }
-
 	public GameFrame() {
 		addWindowListener(new WindowListener());
 
@@ -41,14 +35,14 @@ public class GameFrame extends JFrame {
 		setTitle("BounceClone");
 		setLocation(100, 100);
 
-		MenuListener listener = new MenuListener(this);
+		ButtonListener listener = new ButtonListener(this);
 
 		window = new JPanel();
 
 		layout = new CardLayout();
 		window.setLayout(layout);
 
-		gamepanel = new GamePanel();
+		gamepanel = new GamePanel(listener);
 		menupanel = new MenuPanel(listener);
 		scorepanel = new ScorePanel(listener);
 
@@ -56,13 +50,11 @@ public class GameFrame extends JFrame {
 		window.add(gamepanel, "game");
 		window.add(scorepanel, "scores");
 
-		// ismenu = true;
-		show("menu");
-		// show("game");
-
 		add(window, BorderLayout.CENTER);
 
 		gamesession = null;
+		
+		show("menu");
 	}
 
 	public void setGame(Game g) {
@@ -85,7 +77,7 @@ public class GameFrame extends JFrame {
 	}
 
 	public void setGameSession(GameSession gameSession) {
-		gamepanel.setGameSession(gameSession);
+		//gamepanel.setGameSession(gameSession);
 		gamesession = gameSession;
 	}
 

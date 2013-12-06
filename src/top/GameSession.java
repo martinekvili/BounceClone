@@ -51,7 +51,7 @@ public class GameSession extends Thread {
 						"Game Over", JOptionPane.QUESTION_MESSAGE);
 
 				if (name != null && !name.equals("")) {
-					Application.highscores.add(new Score(name, points));
+					BounceClone.highscores.add(new Score(name, points));
 				}
 
 				view.setGameSession(null);

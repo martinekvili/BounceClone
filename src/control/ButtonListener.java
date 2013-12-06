@@ -7,25 +7,41 @@ import java.awt.event.WindowEvent;
 import top.GameSession;
 import view.GameFrame;
 
-public class MenuListener implements ActionListener {
+/**
+ * A gombnyomásokat figyelõ osztály.
+ */
+public class ButtonListener implements ActionListener {
 
+	/**
+	 * Az ablak, amiben a gombnyomások történnek, és amiben a változások
+	 * történnek ezek hatására.
+	 */
 	private GameFrame gameframe;
 
-	public MenuListener(GameFrame gf) {
-		gameframe = gf;
+	
+	/**
+	 * Konstruktor.
+	 * 
+	 * @param gameframe - az ablak, amire ráállítjuk az osztályt
+	 */
+	public ButtonListener(GameFrame gameframe) {
+		this.gameframe = gameframe;
 	}
 
+	/**
+	 * A függvény ami gombnyomáskor hívódik.
+	 */
 	public void actionPerformed(ActionEvent arg0) {
 		switch (arg0.getActionCommand()) {
 		case "game":
 			gameframe.show("game");
+			
 			if (gameframe.hasGameSession()) {
 				gameframe.getGameSession().halt();
 			}
+			
 			GameSession session = new GameSession(gameframe);
 			session.start();
-
-			// gameframe.repaint();
 			break;
 
 		case "scores":
@@ -35,7 +51,6 @@ public class MenuListener implements ActionListener {
 		case "continue":
 			gameframe.getGameSession().play();
 			gameframe.show("game");
-
 			break;
 
 		case "quit":
@@ -46,6 +61,9 @@ public class MenuListener implements ActionListener {
 		case "back":
 			gameframe.show("menu");
 			break;
+			
+		case "pause":
+			gameframe.getGameSession().pause();
 
 		default:
 			break;

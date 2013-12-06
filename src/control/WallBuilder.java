@@ -9,29 +9,70 @@ import game.HalfDoneWall.Orientation;
 import game.Vector;
 
 import java.awt.Cursor;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 import top.Common;
 
-public class WallBuilder implements MouseListener {
+/**
+ * A kattintásokat feldolgozó osztály.
+ */
+public class WallBuilder extends MouseAdapter {
 
+	/**
+	 * A kurzor aktuális állása.
+	 */
 	private Orientation dir;
-	private Cursor vertical, horizontal;
+
+	/**
+	 * A függõlegesen álló kurzor.
+	 */
+	private Cursor vertical;
+
+	/**
+	 * A vízszintesen álló kurzor.
+	 */
+	private Cursor horizontal;
+
+	/**
+	 * A játék, amiben a kattintásokkal a falakat építjük.
+	 */
 	private Game game;
 
-	public WallBuilder(Game g) {
+	/**
+	 * Konstruktor.
+	 * 
+	 * @param game - a játék amiben a falakat építjük
+	 */
+	public WallBuilder(Game game) {
 		dir = Orientation.VERTICAL;
+
 		vertical = new Cursor(Cursor.N_RESIZE_CURSOR);
 		horizontal = new Cursor(Cursor.E_RESIZE_CURSOR);
-		game = g;
+
+		this.game = game;
 	}
 
+	/**
+	 * A függvény, ami kattintáskor hívódik.
+	 * 
+	 * Bal egérgombbal a falat kezdjük el építeni, míg jobb egérgombbal az
+	 * építés irányát tudjuk változtatni.
+	 * 
+	 * Egy kattintás hatására két épülõ fal indul el, egy pozitív, egy negatív
+	 * irányba.
+	 * 
+	 * Csak akkor kezdünk el egy adott helyen építkezni, ha az még pályán belül
+	 * esik, és még nincs ott fal.
+	 * 
+	 * Csak akkor szabad építkezni, ha a játékban éppen nincsen másik aktív
+	 * építkezés folyamatban.
+	 */
 	public void mouseReleased(MouseEvent e) {
 		switch (e.getButton()) {
 
+		/* Balklikk érkezett. */
 		case 1:
-			/* left mouse button */
 			if (game.freeToBulid()) {
 				BoardPos pos1 = BoardPos
 						.vecToPos(new Vector(e.getX(), e.getY()));
@@ -59,8 +100,8 @@ public class WallBuilder implements MouseListener {
 			}
 			break;
 
+		/* Jobklikk érkezett. */
 		case 3:
-			/* right mouse button */
 			if (dir == Orientation.VERTICAL) {
 				dir = Orientation.HORIZONTAL;
 				e.getComponent().setCursor(horizontal);
@@ -68,7 +109,6 @@ public class WallBuilder implements MouseListener {
 				dir = Orientation.VERTICAL;
 				e.getComponent().setCursor(vertical);
 			}
-
 			break;
 
 		default:
@@ -76,20 +116,13 @@ public class WallBuilder implements MouseListener {
 		}
 	}
 
-	public void mouseEntered(MouseEvent e) {
-	}
-
-	public void mouseExited(MouseEvent e) {
-	}
-
-	public void mousePressed(MouseEvent e) {
-	}
-
-	public void mouseClicked(MouseEvent e) {
-	}
-
-	public void setGame(Game g) {
-		game = g;
+	/**
+	 * Ezzel a függvénnyel tudjuk másik játékra ráállítani az osztályt.
+	 * 
+	 * @param game - a játék amiben a falakat építjük
+	 */
+	public void setGame(Game game) {
+		this.game = game;
 	}
 
 }

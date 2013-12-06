@@ -7,19 +7,19 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
-import top.Application;
-import control.MenuListener;
+import top.BounceClone;
+import control.ButtonListener;
 
 public class ScorePanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
-	public ScorePanel(MenuListener listener) {
+	public ScorePanel(ButtonListener listener) {
 		setLayout(new BorderLayout());
 
 		JPanel top = new JPanel();
 
-		JTable table = new JTable(Application.highscores);
+		JTable table = new JTable(BounceClone.highscores);
 		table.setFillsViewportHeight(true);
 
 		JScrollPane scroll = new JScrollPane(table);

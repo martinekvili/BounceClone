@@ -6,7 +6,7 @@ import java.awt.GridLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import control.MenuListener;
+import control.ButtonListener;
 
 public class MenuPanel extends JPanel {
 
@@ -14,7 +14,7 @@ public class MenuPanel extends JPanel {
 
 	private JButton cont;
 
-	public MenuPanel(MenuListener listener) {
+	public MenuPanel(ButtonListener listener) {
 		JPanel top = new JPanel();
 
 		JButton game = new JButton("Start game");

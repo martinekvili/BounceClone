@@ -10,8 +10,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import top.GameSession;
-import control.PauseListener;
+import control.ButtonListener;
 
 public class GamePanel extends JPanel {
 
@@ -23,13 +22,10 @@ public class GamePanel extends JPanel {
 	private JLabel time;
 	private JLabel points;
 
-	private PauseListener pauselistener;
-
-	public GamePanel() {
+	public GamePanel(ButtonListener listener) {
 		setLayout(new BorderLayout());
 
 		board = new BoardView();
-		pauselistener = new PauseListener();
 
 		add(board, BorderLayout.CENTER);
 
@@ -41,7 +37,8 @@ public class GamePanel extends JPanel {
 		c.weightx = 0.1;
 
 		JButton pause = new JButton("Pause");
-		pause.addActionListener(pauselistener);
+		pause.setActionCommand("pause");
+		pause.addActionListener(listener);
 
 		c.gridwidth = 1;
 		bottom.add(pause, c);
@@ -80,9 +77,5 @@ public class GamePanel extends JPanel {
 	public void setGame(Game g) {
 		board.setGame(g);
 	}
-
-	public void setGameSession(GameSession gameSession) {
-		pauselistener.setGamesession(gameSession);
-	}
-
+	
 }

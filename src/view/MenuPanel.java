@@ -1,6 +1,8 @@
 package view;
 
 import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 
 import javax.swing.JButton;
@@ -8,14 +10,28 @@ import javax.swing.JPanel;
 
 import control.ButtonListener;
 
+/**
+ * A menüt tartalmazó JPanel.
+ */
 public class MenuPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * A folytatás gomb.
+	 */
 	private JButton cont;
 
+	/**
+	 * Konstruktor.
+	 * 
+	 * Összerakja a kinézetet, és beállítja a gombokhoz a listenert.
+	 * 
+	 * @param listener
+	 *            - a gombokat figyelõ listener
+	 */
 	public MenuPanel(ButtonListener listener) {
-		JPanel top = new JPanel();
+		setLayout(new GridBagLayout());
 
 		JButton game = new JButton("Start game");
 		game.setActionCommand("game");
@@ -42,12 +58,21 @@ public class MenuPanel extends JPanel {
 		panel.add(quit);
 
 		panel.setPreferredSize(new Dimension(300, 150));
-		top.add(panel);
 
-		// setLayout(new BorderLayout());
-		add(top);
+		GridBagConstraints gc = new GridBagConstraints();
+		gc.anchor = GridBagConstraints.CENTER;
+
+		add(panel, gc);
 	}
 
+	/**
+	 * Beálítja, hogy elérhetõ legyen-e a folytatás gomb.
+	 * 
+	 * A folytatás gomb csak akkor elérhetõ, ha van éppen félbehagyott játék.
+	 * 
+	 * @param enabled
+	 *            - az érték amire be kell állítani
+	 */
 	public void setContinue(boolean enabled) {
 		cont.setEnabled(enabled);
 	}

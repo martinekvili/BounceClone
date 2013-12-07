@@ -12,16 +12,46 @@ import javax.swing.JPanel;
 
 import control.ButtonListener;
 
+/**
+ * A játékhoz szükséges információkat tartalmazó JPanel.
+ */
 public class GamePanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * A játékot megjelenítõ BoardView.
+	 */
 	private BoardView board;
+
+	/**
+	 * Az életek számának kijelzése.
+	 */
 	private JLabel lives;
+
+	/**
+	 * A pálya telítettségének kijelzése.
+	 */
 	private JLabel percent;
+
+	/**
+	 * A hátralévõ idõ kijelzése.
+	 */
 	private JLabel time;
+
+	/**
+	 * A pontjaink számának kijelzése.
+	 */
 	private JLabel points;
 
+	/**
+	 * Konstruktor.
+	 * 
+	 * Összerakja a megfelelõ kinézetet.
+	 * 
+	 * @param listener
+	 *            - a gombnyomást figyelõ listener
+	 */
 	public GamePanel(ButtonListener listener) {
 		setLayout(new BorderLayout());
 
@@ -66,6 +96,12 @@ public class GamePanel extends JPanel {
 		add(bottom, BorderLayout.SOUTH);
 	}
 
+	/**
+	 * A kijelzés frissítését végzõ függvény.
+	 * 
+	 * Újrarajzolja a pályát, és újra lekéri a megfelelõ adatokat a játéktól
+	 * (élet, idõ, stb.).
+	 */
 	public void refresh() {
 		board.repaint();
 		lives.setText(board.game.getLives());
@@ -74,8 +110,14 @@ public class GamePanel extends JPanel {
 		points.setText(board.game.getPoints());
 	}
 
-	public void setGame(Game g) {
-		board.setGame(g);
+	/**
+	 * Beállítja az aktuális játékot ennek a megjelenítõnek.
+	 * 
+	 * @param game
+	 *            - az aktuális játék
+	 */
+	public void setGame(Game game) {
+		board.setGame(game);
 	}
 
 }

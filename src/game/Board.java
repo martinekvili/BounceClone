@@ -174,7 +174,9 @@ public class Board {
 		for (int i = 0; i < parent.balls; i++) {
 			Vector vec = parent.objects.get(i).getVec();
 			BoardPos tmp = BoardPos.vecToPos(vec);
-			sandbox[tmp.ypos][tmp.xpos] = BoardState.BALL;
+			
+			if (sandbox[tmp.ypos][tmp.xpos] == BoardState.EMPTY)
+				sandbox[tmp.ypos][tmp.xpos] = BoardState.BALL;
 		}
 
 		return recursiveTest(pos, sandbox);
